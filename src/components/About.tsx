@@ -30,7 +30,7 @@ const About = () => {
   ];
 
   return (
-    <div className="bg-[#FAFAFA] p-10 flex flex-col gap-11.5">
+    <div className="bg-[#FAFAFA] px-[8%] py-[4.75%] flex flex-col gap-11.5">
       <div className="flex justify-center">
         <div className="rounded-4xl py-2.5 px-5 border border-[#00C281] bg-[#00C2811A] text-[#00C281] text-center">
           <Typography>About Plasticonn</Typography>
@@ -94,8 +94,8 @@ const About = () => {
               Our Vision
             </Typography>
             <Typography fontSize={26} fontWeight={300}>
-              A cleaner, smarter, and more sustainable Nigeria where <br />{" "}
-              plastic is valued, not wasted.
+              A cleaner, smarter, and more sustainable Nigeria where plastic is
+              valued, not wasted.
             </Typography>
           </div>
 

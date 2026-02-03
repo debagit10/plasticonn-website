@@ -4,7 +4,7 @@ import { IoMdArrowForward } from "react-icons/io";
 
 const Hero = () => {
   return (
-    <div className="flex  px-[8%] py-[4.75%]">
+    <div className="flex px-[8%] py-[4.75%]">
       <div className="flex flex-col gap-12">
         <div className="rounded-[30px] bg-[#FAFAFA33] flex justify-between items-center px-9 py-1.5 w-105.75">
           <div className="bg-[#00C281] w-4 h-4 rounded-full" />
