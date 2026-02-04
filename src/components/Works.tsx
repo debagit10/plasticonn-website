@@ -53,8 +53,8 @@ const Works = () => {
         </Typography>
       </div>
 
-      <div className="relative py-16">
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-100">
+      <div className="relative pt-16">
+        <div className="absolute inset-0 flex items-center justify-center top-15 pointer-events-none z-100">
           <img src={circle} />
         </div>
 
@@ -88,32 +88,32 @@ const Works = () => {
             </div>
           ))}
         </div>
+      </div>
 
-        <div className="flex gap-12 pt-20 ">
-          <div className="rounded-[20px] p-9 flex flex-col gap-4.5 shadow-lg shadow-[#00000026] bg-[#FAFAFA] border-l border-b border-r border-[#00000026] w-125 text-center">
-            <Typography fontSize={42} fontWeight={400} color="#00C281">
-              24/7
-            </Typography>
-            <Typography fontSize={24} fontWeight={300} color="#1A1A1A">
-              Platform Access
-            </Typography>
-          </div>
-          <div className="rounded-[20px] p-9 flex flex-col gap-4.5 shadow-lg shadow-[#00000026] bg-[#FAFAFA] border-l border-b border-r border-[#00000026] w-125 text-center">
-            <Typography fontSize={42} fontWeight={400} color="#00C281">
-              Real-Time
-            </Typography>
-            <Typography fontSize={24} fontWeight={300} color="#1A1A1A">
-              Tracking & Updates
-            </Typography>
-          </div>
-          <div className="rounded-[20px] p-9 flex flex-col gap-4.5 shadow-lg shadow-[#00000026] bg-[#FAFAFA] border-l border-b border-r border-[#00000026] w-125 text-center">
-            <Typography fontSize={42} fontWeight={400} color="#00C281">
-              Instant
-            </Typography>
-            <Typography fontSize={24} fontWeight={300} color="#1A1A1A">
-              Credit Rewards
-            </Typography>
-          </div>
+      <div className="flex gap-12 py-8 ">
+        <div className="rounded-[20px] p-9 flex flex-col gap-1 shadow-lg shadow-[#00000026] bg-[#FAFAFA] border-l border-b border-r border-[#00000026] w-125 text-center">
+          <Typography fontSize={42} fontWeight={400} color="#00C281">
+            24/7
+          </Typography>
+          <Typography fontSize={24} fontWeight={300} color="#1A1A1A">
+            Platform Access
+          </Typography>
+        </div>
+        <div className="rounded-[20px] p-9 flex flex-col gap-1 shadow-lg shadow-[#00000026] bg-[#FAFAFA] border-l border-b border-r border-[#00000026] w-125 text-center">
+          <Typography fontSize={42} fontWeight={400} color="#00C281">
+            Real-Time
+          </Typography>
+          <Typography fontSize={24} fontWeight={300} color="#1A1A1A">
+            Tracking & Updates
+          </Typography>
+        </div>
+        <div className="rounded-[20px] p-9 flex flex-col gap-1 shadow-lg shadow-[#00000026] bg-[#FAFAFA] border-l border-b border-r border-[#00000026] w-125 text-center">
+          <Typography fontSize={42} fontWeight={400} color="#00C281">
+            Instant
+          </Typography>
+          <Typography fontSize={24} fontWeight={300} color="#1A1A1A">
+            Credit
+          </Typography>
         </div>
       </div>
     </div>

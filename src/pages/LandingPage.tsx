@@ -1,6 +1,7 @@
 import About from "../components/About";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
+import Impact from "../components/Impact";
 import Navbar from "../components/Navbar";
 import Works from "../components/Works";
 
@@ -14,6 +15,8 @@ const LandingPage = () => {
       <About />
 
       <Works />
+
+      <Impact />
 
       <Footer />
     </div>
