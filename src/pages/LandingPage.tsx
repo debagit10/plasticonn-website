@@ -4,6 +4,7 @@ import Hero from "../components/Hero";
 import Impact from "../components/Impact";
 import Journey from "../components/Journey";
 import Navbar from "../components/Navbar";
+import Partners from "../components/Partners";
 import Works from "../components/Works";
 
 const LandingPage = () => {
@@ -20,6 +21,8 @@ const LandingPage = () => {
       <Impact />
 
       <Journey />
+
+      <Partners />
 
       <Footer />
     </div>
