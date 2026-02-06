@@ -5,6 +5,7 @@ import Impact from "../components/Impact";
 import Journey from "../components/Journey";
 import Navbar from "../components/Navbar";
 import Partners from "../components/Partners";
+import Team from "../components/Team";
 import Works from "../components/Works";
 
 const LandingPage = () => {
@@ -19,6 +20,8 @@ const LandingPage = () => {
       <Works />
 
       <Impact />
+
+      <Team />
 
       <Journey />
 
