@@ -1,4 +1,5 @@
 import About from "../components/About";
+import Blogs from "../components/Blog";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Impact from "../components/Impact";
@@ -24,6 +25,8 @@ const LandingPage = () => {
       <Team />
 
       <Journey />
+
+      <Blogs />
 
       <Partners />
 

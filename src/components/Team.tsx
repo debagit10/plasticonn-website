@@ -56,7 +56,6 @@ const Team = () => {
     setCurrentIndex(team.length + index);
   };
 
-  // Handle infinite loop logic
   useEffect(() => {
     if (currentIndex === 0) {
       setTimeout(() => {
@@ -99,6 +98,20 @@ const Team = () => {
         <div className="rounded-4xl py-2.5 px-5 border border-[#00C281] bg-[#00C2811A] text-[#00C281] text-center">
           <Typography>Our Team</Typography>
         </div>
+      </div>
+
+      <div className="flex justify-center text-center">
+        <Typography fontSize={42} fontWeight={400} color="#1A1A1A">
+          Meet the Faces Behind Plasticonn <br />{" "}
+          <span className="text-[#00C281]">Making Recycling Looks Easy</span>
+        </Typography>
+      </div>
+
+      <div className="flex justify-center text-center">
+        <Typography fontSize={26} fontWeight={300} color="#1A1A1A">
+          Powerful team trying to make plastic recycling effortless,
+          transparent, and rewarding for everyone in the <br /> ecosystem.
+        </Typography>
       </div>
 
       <div className="w-full max-w-7xl mx-auto px-4">
