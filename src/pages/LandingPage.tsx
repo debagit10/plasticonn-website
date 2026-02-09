@@ -1,6 +1,13 @@
+import About from "../components/About";
+import Blogs from "../components/Blog";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
+import Impact from "../components/Impact";
+import Journey from "../components/Journey";
 import Navbar from "../components/Navbar";
+import Partners from "../components/Partners";
+import Team from "../components/Team";
+import Works from "../components/Works";
 
 const LandingPage = () => {
   return (
@@ -8,6 +15,20 @@ const LandingPage = () => {
       <Navbar />
 
       <Hero />
+
+      <About />
+
+      <Works />
+
+      <Impact />
+
+      <Team />
+
+      <Journey />
+
+      <Blogs />
+
+      <Partners />
 
       <Footer />
     </div>

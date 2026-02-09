@@ -1,64 +1,117 @@
 import { Button, Typography } from "@mui/material";
+import { useState } from "react";
 import logo from "../logo/logo.png";
+import { IoMenu, IoCloseSharp } from "react-icons/io5";
 
 const Navbar = () => {
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className="flex justify-between bg-[#FAFAFA33] px-16 py-6.75 items-center text-white">
-      <div className="flex gap-4 items-center">
-        <img
-          src={logo}
-          alt="Plasticonn logo"
-          width={56}
-          height={56}
-          className="rounded-[46px]"
-        />
-        <Typography fontSize={36} fontWeight={400}>
-          Plasticonn
-        </Typography>
-      </div>
+    <>
+      {/* NAVBAR */}
+      <div className="flex justify-between items-center px-6 md:px-16 py-4 bg-[#2F5F4B] text-white">
+        {/* Logo */}
+        <div className="flex gap-4 items-center">
+          <img
+            src={logo}
+            alt="Plasticonn logo"
+            width={40}
+            height={40}
+            className="rounded-full"
+          />
+          <Typography fontSize={26} fontWeight={400}>
+            Plasticonn
+          </Typography>
+        </div>
 
-      <ul className="flex gap-10.5 items-center">
-        <li>
-          <Typography fontSize={26} fontWeight={400}>
-            About Us
-          </Typography>
-        </li>
-        <li>
-          <Typography fontSize={26} fontWeight={400}>
-            Gallery
-          </Typography>
-        </li>
-        <li>
-          <Typography fontSize={26} fontWeight={400}>
-            Our Impact
-          </Typography>
-        </li>
-        <li>
-          <Typography fontSize={26} fontWeight={400}>
-            How It Works
-          </Typography>
-        </li>
+        {/* Desktop Menu */}
+        <ul className="hidden md:flex gap-10 items-center">
+          {["About Us", "Gallery", "Our Impact", "How It Works"].map((item) => (
+            <li key={item}>
+              <Typography fontSize={18}>{item}</Typography>
+            </li>
+          ))}
 
-        <li>
           <Button
-            disableElevation
             variant="contained"
+            disableElevation
             sx={{
               borderRadius: "16px",
               backgroundColor: "#00C281",
               textTransform: "capitalize",
-              //padding: "16px",
-              height: "60px",
-              width: "200px",
+              height: "56px",
+              width: "180px",
+              "&:hover": {
+                backgroundColor: "#00a96f",
+              },
             }}
           >
-            <Typography fontSize={24} fontWeight={400}>
-              Get Started
-            </Typography>
+            <Typography fontSize={20}>Get Started</Typography>
           </Button>
-        </li>
-      </ul>
-    </div>
+        </ul>
+
+        {/* Mobile Menu Icon */}
+        <button className="md:hidden text-3xl" onClick={() => setOpen(true)}>
+          <IoMenu />
+        </button>
+      </div>
+
+      {/* MOBILE MENU OVERLAY */}
+      {open && (
+        <div className="fixed inset-0 bg-white z-50 flex flex-col">
+          {/* Header */}
+          <div className="flex justify-between items-center px-6 py-4 border-b">
+            <div className="flex items-center gap-2">
+              <img
+                src={logo}
+                alt="Plasticonn logo"
+                width={36}
+                height={36}
+                className="rounded-full"
+              />
+              <Typography fontSize={20} fontWeight={400} color="#2F5F4B">
+                Plasticonn
+              </Typography>
+            </div>
+
+            <button className="text-2xl" onClick={() => setOpen(false)}>
+              <IoCloseSharp />
+            </button>
+          </div>
+
+          {/* Menu Items */}
+          <div className="flex flex-col items-center gap-8 mt-12 text-[#2F5F4B]">
+            {["Home", "About Us", "Gallery", "Impact", "How It Works"].map(
+              (item) => (
+                <Typography key={item} fontSize={18}>
+                  {item}
+                </Typography>
+              ),
+            )}
+          </div>
+
+          {/* Button */}
+          <div className="mt-auto px-6 pb-8">
+            <Button
+              fullWidth
+              variant="contained"
+              disableElevation
+              sx={{
+                borderRadius: "16px",
+                backgroundColor: "#00C281",
+                textTransform: "capitalize",
+                height: "56px",
+                "&:hover": {
+                  backgroundColor: "#00a96f",
+                },
+              }}
+            >
+              <Typography fontSize={18}>Get Started</Typography>
+            </Button>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
