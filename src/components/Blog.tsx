@@ -116,25 +116,31 @@ const Blogs = () => {
   };
 
   return (
-    <div className="bg-white px-[8%] py-[4.25%] flex flex-col gap-11.5">
+    <div className="bg-white px-[6%] lg:px-[8%] py-[8%] lg:py-[4.25%] flex flex-col gap-8 lg:gap-11.5">
       <div className="flex justify-center">
-        <div className="rounded-4xl py-2.5 px-5 border border-[#00C281] bg-[#00C2811A] text-[#00C281] text-center">
-          <Typography>Our Blog</Typography>
+        <div className="rounded-4xl py-2 lg:py-2.5 px-4 lg:px-5 border border-[#00C281] bg-[#00C2811A] text-[#00C281] text-center">
+          <Typography sx={{ fontSize: { xs: 14, lg: 16 } }}>
+            Our Blog
+          </Typography>
         </div>
       </div>
 
-      <div className="flex justify-center text-center">
-        <Typography fontSize={42} fontWeight={400} color="#1A1A1A">
+      <div className="flex justify-center text-center px-4 lg:px-0">
+        <Typography
+          fontSize={{ xs: 28, sm: 32, md: 38, lg: 42 }}
+          fontWeight={400}
+          color="#1A1A1A"
+        >
           Latest Blog Post & <br />{" "}
           <span className="text-[#00C281]">Articles Highlighted</span>
         </Typography>
       </div>
 
-      <div className="w-full max-w-7xl mx-auto px-4">
+      <div className="w-full max-w-7xl mx-auto px-2 sm:px-4">
         <div className="relative">
           <div className="overflow-hidden">
             <div
-              className={`flex gap-6 ${
+              className={`flex gap-4 lg:gap-6 ${
                 isTransitioning
                   ? "transition-transform duration-500 ease-in-out"
                   : ""
@@ -147,16 +153,16 @@ const Blogs = () => {
                 <div key={index} className="shrink-0 w-full sm:w-1/2 lg:w-1/3">
                   <div className="bg-[#F8F8F8] rounded-[20px] overflow-hidden duration-300 hover:scale-105">
                     {/* Blog Image */}
-                    <div className="relative h-70 overflow-hidden">
+                    <div className="relative h-48 sm:h-56 md:h-64 lg:h-70 overflow-hidden">
                       <img
                         src={blog.image}
                         alt={blog.title}
                         className="w-full h-full object-cover rounded-b-[20px]"
                       />
                       {/* Date Badge - Vertical */}
-                      <div className="absolute top-4 -left-1 bg-white rounded-lg p-2.5 border-2 border-[#FAFAFA]">
+                      <div className="absolute top-3 lg:top-4 -left-1 bg-white rounded-lg p-2 lg:p-2.5 border-2 border-[#FAFAFA]">
                         <Typography
-                          fontSize={18}
+                          fontSize={{ xs: 14, lg: 18 }}
                           fontWeight={300}
                           color="#1A1A1A"
                           style={{
@@ -170,9 +176,9 @@ const Blogs = () => {
                     </div>
 
                     {/* Blog Content */}
-                    <div className="p-6 flex flex-col gap-3 bg-[#EFEFEF]">
+                    <div className="p-4 lg:p-6 flex flex-col gap-2 lg:gap-3 bg-[#EFEFEF]">
                       <Typography
-                        fontSize={26}
+                        fontSize={{ xs: 16, sm: 18, lg: 20 }}
                         fontWeight={400}
                         color="#1A1A1A"
                         className="line-clamp-2"
@@ -181,7 +187,7 @@ const Blogs = () => {
                       </Typography>
 
                       <Typography
-                        fontSize={18}
+                        fontSize={{ xs: 14, sm: 16, lg: 18 }}
                         fontWeight={300}
                         color="#666"
                         className="line-clamp-3"
@@ -190,13 +196,13 @@ const Blogs = () => {
                       </Typography>
 
                       {/* Arrow Button */}
-                      <div className="flex justify-end mt-2">
+                      <div className="flex justify-end mt-1 lg:mt-2">
                         <a
                           href={blog.link}
-                          className="bg-[#00C281] hover:bg-[#00A86B] text-white rounded-xl p-3 transition-colors duration-300"
+                          className="bg-[#00C281] hover:bg-[#00A86B] text-white rounded-xl p-2.5 lg:p-3 transition-colors duration-300"
                           aria-label="Read more"
                         >
-                          <FiArrowUpRight className="w-5 h-5" />
+                          <FiArrowUpRight className="w-4 h-4 lg:w-5 lg:h-5" />
                         </a>
                       </div>
                     </div>
@@ -223,7 +229,7 @@ const Blogs = () => {
           </button>
         </div>
 
-        <div className="flex justify-center gap-2 mt-6 items-center">
+        <div className="flex justify-center gap-2 mt-4 lg:mt-6 items-center">
           {blogs.map((_, index) => (
             <button
               key={index}
@@ -235,10 +241,10 @@ const Blogs = () => {
                 <img
                   src={carousel}
                   alt="Active indicator"
-                  className="w-7.5 h-7.5"
+                  className="w-6 h-6 lg:w-7.5 lg:h-7.5"
                 />
               ) : (
-                <div className="w-3 h-3 rounded-full bg-gray-400" />
+                <div className="w-2.5 h-2.5 lg:w-3 lg:h-3 rounded-full bg-gray-400" />
               )}
             </button>
           ))}

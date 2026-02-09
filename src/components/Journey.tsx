@@ -46,31 +46,104 @@ const Journey = () => {
   ];
 
   return (
-    <div className="bg-[#F1F1F1] px-[8%] py-[4.25%] flex flex-col gap-11.5">
+    <div className="bg-[#F1F1F1] px-[6%] lg:px-[8%] py-[8%] lg:py-[4.25%] flex flex-col gap-8 lg:gap-11.5">
+      {/* Badge */}
       <div className="flex justify-center">
-        <div className="rounded-4xl py-2.5 px-5 border border-[#00C281] bg-[#00C2811A] text-[#00C281] text-center">
-          <Typography>Our Journey</Typography>
+        <div className="rounded-4xl py-2 lg:py-2.5 px-4 lg:px-5 border border-[#00C281] bg-[#00C2811A] text-[#00C281] text-center">
+          <Typography sx={{ fontSize: { xs: 14, lg: 16 } }}>
+            Our Journey
+          </Typography>
         </div>
       </div>
 
+      {/* Main Heading */}
       <div className="flex justify-center text-center">
-        <Typography fontSize={42} fontWeight={400} color="#1A1A1A">
+        <Typography
+          fontSize={{ xs: 28, sm: 32, md: 38, lg: 42 }}
+          fontWeight={400}
+          color="#1A1A1A"
+        >
           Making a <br /> <span className="text-[#00C281]">Difference</span>
         </Typography>
       </div>
 
-      <div className="flex justify-center text-center">
-        <Typography fontSize={26} fontWeight={300} color="#1A1A1A">
+      {/* Description */}
+      <div className="flex justify-center text-center px-4 lg:px-0">
+        <Typography
+          fontSize={{ xs: 14, sm: 16, md: 18, lg: 20 }}
+          fontWeight={300}
+          color="#1A1A1A"
+        >
           From a simple idea to a massive movement. Here's how Plasticonn has
-          grown to become a leader in <br /> sustainable plastic recycling.
+          grown to become a leader in <br className="hidden lg:block" />{" "}
+          sustainable plastic recycling.
         </Typography>
       </div>
 
-      <div className="relative py-16 px-8">
+      {/* Timeline Section */}
+      <div className="relative py-8 lg:py-16 px-4 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="absolute left-1/2 top-20 bottom-0 w-1 bg-[#00C281] transform -translate-x-1/2" />
+          {/* Vertical Line - Desktop only */}
+          <div className="absolute left-1/2 top-20 bottom-0 w-1 bg-[#00C281] transform -translate-x-1/2 hidden lg:block" />
 
-          <div className="relative mb-24 flex flex-col gap-15">
+          {/* Mobile Layout */}
+          <div className="flex flex-col gap-6 lg:hidden">
+            {journey.map((item, index) => (
+              <div key={index} className="flex flex-col gap-4">
+                {/* Card with Icon, Timeline, Title, Text, Stats */}
+                <div className="bg-white rounded-2xl p-5 shadow-sm flex flex-col gap-4">
+                  {/* Icon and Timeline */}
+                  <div className="flex items-start gap-3">
+                    <div className="w-12 h-12 bg-linear-to-br from-[#005C3D] to-[#00C281] rounded-xl flex items-center justify-center shrink-0">
+                      <img src={item.icon} alt="" className="w-6 h-6" />
+                    </div>
+                    <Typography fontSize={14} fontWeight={400} color="#00C281">
+                      {item.timeline}
+                    </Typography>
+                  </div>
+
+                  {/* Title */}
+                  <Typography
+                    fontSize={20}
+                    fontWeight={500}
+                    color="#1A1A1A"
+                    sx={{ fontFamily: "Georgia, serif" }}
+                  >
+                    {item.title}
+                  </Typography>
+
+                  {/* Text */}
+                  <Typography
+                    fontSize={14}
+                    fontWeight={300}
+                    color="#1A1A1A"
+                    sx={{ lineHeight: 1.5 }}
+                  >
+                    {item.text}
+                  </Typography>
+
+                  {/* Stats Badge */}
+                  <div className="bg-[#00C2811A] py-2 px-4 rounded-full text-center w-fit">
+                    <Typography fontSize={14} fontWeight={400} color="#00C281">
+                      {item.stats}
+                    </Typography>
+                  </div>
+                </div>
+
+                {/* Image */}
+                <div className="w-full">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="rounded-2xl w-full h-auto object-cover"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Layout - Original Design */}
+          <div className="relative mb-24 hidden lg:flex flex-col gap-15">
             {journey.map((item, index) => (
               <div
                 key={index}

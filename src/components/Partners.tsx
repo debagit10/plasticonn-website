@@ -18,10 +18,15 @@ const Partners = () => {
 
   const extendedPartners = [...partners, ...partners, ...partners];
 
+  const getCardsToShow = () => {
+    if (window.innerWidth < 640) return 1; // mobile
+    if (window.innerWidth < 1024) return 2; // tablet
+    return 3; // desktop (unchanged)
+  };
+
+  const [cardsToShow, setCardsToShow] = useState(getCardsToShow());
   const [currentIndex, setCurrentIndex] = useState(partners.length);
   const [isTransitioning, setIsTransitioning] = useState(true);
-
-  const cardsToShow = 3;
 
   const handlePrev = () => {
     setCurrentIndex((prev) => prev - 1);
@@ -35,6 +40,7 @@ const Partners = () => {
     setCurrentIndex(partners.length + index);
   };
 
+  // Handle infinite looping
   useEffect(() => {
     if (currentIndex === 0) {
       setTimeout(() => {
@@ -49,30 +55,44 @@ const Partners = () => {
     } else {
       setIsTransitioning(true);
     }
-  }, [currentIndex, partners.length, extendedPartners.length]);
+  }, [currentIndex, partners.length, extendedPartners.length, cardsToShow]);
 
+  // Auto slide (desktop & tablet only)
   useEffect(() => {
+    if (cardsToShow === 1) return;
+
     const interval = setInterval(() => {
       setCurrentIndex((prev) => prev + 1);
     }, 3000);
 
     return () => clearInterval(interval);
+  }, [cardsToShow]);
+
+  // Handle resize
+  useEffect(() => {
+    const handleResize = () => {
+      setCardsToShow(getCardsToShow());
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const getIndicatorIndex = () => {
-    const normalizedIndex = currentIndex % partners.length;
-    return normalizedIndex;
+    return currentIndex % partners.length;
   };
 
   return (
-    <div className="bg-[#F1F1F1] px-[8%] py-[4.25%] flex flex-col gap-11.5">
+    <div className="bg-[#F1F1F1] px-[5%] lg:px-[8%] py-[8%] lg:py-[4.25%] flex flex-col gap-8 lg:gap-11.5">
+      {/* Title */}
       <div className="flex justify-center">
         <div className="rounded-4xl py-2.5 px-5 border border-[#00C281] bg-[#00C2811A] text-[#00C281] text-center">
           <Typography>Our Partners</Typography>
         </div>
       </div>
 
-      <div className="w-full max-w-7xl mx-auto  px-4">
+      {/* Carousel */}
+      <div className="w-full max-w-7xl mx-auto px-4">
         <div className="relative">
           <div className="overflow-hidden">
             <div
@@ -82,16 +102,16 @@ const Partners = () => {
                   : ""
               }`}
               style={{
-                transform: `translateX(-${currentIndex * (100 / cardsToShow + 2)}%)`,
+                transform: `translateX(-${(currentIndex * 100) / cardsToShow}%)`,
               }}
             >
               {extendedPartners.map((partner, index) => (
                 <div key={index} className="shrink-0 w-full sm:w-1/2 lg:w-1/3">
-                  <div className="bg-[#FAFAFA] py-8 px-8.5 rounded-[18px] shadow-lg flex flex-col gap-6.5 text-center">
+                  <div className="bg-[#FAFAFA] py-8 px-6 lg:px-8.5 rounded-[18px] shadow-lg flex flex-col gap-6.5 text-center">
                     <img
                       src={partner.image}
                       alt={`${partner.name} logo`}
-                      className="mx-auto h-70.5 w-[288px] object-contain"
+                      className="mx-auto h-48 sm:h-60 lg:h-70.5 w-55 sm:w-65 lg:w-[288px] object-contain"
                     />
 
                     <Typography fontSize={20} fontWeight={400} color="#00C281">
@@ -103,6 +123,7 @@ const Partners = () => {
             </div>
           </div>
 
+          {/* Arrows (desktop only – unchanged) */}
           <button
             onClick={handlePrev}
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white shadow-md hover:bg-gray-50 rounded-full p-2 hidden lg:flex items-center justify-center transition-all"
@@ -120,6 +141,7 @@ const Partners = () => {
           </button>
         </div>
 
+        {/* Indicators */}
         <div className="flex justify-center gap-2 mt-6 items-center">
           {partners.map((_, index) => (
             <button

@@ -41,8 +41,20 @@ const Team = () => {
 
   const [currentIndex, setCurrentIndex] = useState(team.length);
   const [isTransitioning, setIsTransitioning] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const cardsToShow = 3; // Number of cards visible on lg screens
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const cardsToShow = isMobile ? 1 : 3; // 1 card on mobile, 3 on desktop
 
   const handlePrev = () => {
     setCurrentIndex((prev) => prev - 1);
@@ -70,7 +82,7 @@ const Team = () => {
     } else {
       setIsTransitioning(true);
     }
-  }, [currentIndex, team.length, extendedTeam.length]);
+  }, [currentIndex, team.length, extendedTeam.length, cardsToShow]);
 
   // Autoscroll effect
   useEffect(() => {
@@ -89,28 +101,42 @@ const Team = () => {
 
   // Check if a card is in the center position
   const isCenter = (index: number) => {
+    if (isMobile) {
+      return index === currentIndex;
+    }
     return index === currentIndex + 1;
   };
 
   return (
-    <div className="bg-[#FAFAFA] px-[8%] py-[4.25%] flex flex-col gap-11.5">
+    <div className="bg-[#FAFAFA] px-[6%] lg:px-[8%] py-[8%] lg:py-[4.25%] flex flex-col gap-8 lg:gap-11.5">
       <div className="flex justify-center">
-        <div className="rounded-4xl py-2.5 px-5 border border-[#00C281] bg-[#00C2811A] text-[#00C281] text-center">
-          <Typography>Our Team</Typography>
+        <div className="rounded-4xl py-2 lg:py-2.5 px-4 lg:px-5 border border-[#00C281] bg-[#00C2811A] text-[#00C281] text-center">
+          <Typography sx={{ fontSize: { xs: 14, lg: 16 } }}>
+            Our Team
+          </Typography>
         </div>
       </div>
 
-      <div className="flex justify-center text-center">
-        <Typography fontSize={42} fontWeight={400} color="#1A1A1A">
+      <div className="flex justify-center text-center px-4 lg:px-0">
+        <Typography
+          fontSize={{ xs: 28, sm: 32, md: 38, lg: 42 }}
+          fontWeight={400}
+          color="#1A1A1A"
+        >
           Meet the Faces Behind Plasticonn <br />{" "}
           <span className="text-[#00C281]">Making Recycling Looks Easy</span>
         </Typography>
       </div>
 
-      <div className="flex justify-center text-center">
-        <Typography fontSize={26} fontWeight={300} color="#1A1A1A">
+      <div className="flex justify-center text-center px-4 lg:px-0">
+        <Typography
+          fontSize={{ xs: 14, sm: 16, md: 18, lg: 20 }}
+          fontWeight={300}
+          color="#1A1A1A"
+        >
           Powerful team trying to make plastic recycling effortless,
-          transparent, and rewarding for everyone in the <br /> ecosystem.
+          transparent, and rewarding for everyone in the{" "}
+          <br className="hidden lg:block" /> ecosystem.
         </Typography>
       </div>
 
@@ -118,22 +144,30 @@ const Team = () => {
         {/* Carousel Container */}
         <div className="relative">
           {/* Cards Container */}
-          <div className="overflow-hidden py-8">
+          <div className="overflow-hidden py-4 lg:py-8">
             <div
-              className={`flex gap-10 items-center ${
+              className={`flex gap-0 lg:gap-10 items-center ${
                 isTransitioning
                   ? "transition-transform duration-500 ease-in-out"
                   : ""
               }`}
               style={{
-                transform: `translateX(-${currentIndex * 33.333}%)`,
+                transform: isMobile
+                  ? `translateX(-${currentIndex * 100}%)`
+                  : `translateX(-${currentIndex * 33.333}%)`,
               }}
             >
               {extendedTeam.map((member, index) => (
-                <div key={index} className="">
+                <div
+                  key={index}
+                  className="shrink-0"
+                  style={{ width: isMobile ? "100%" : "auto" }}
+                >
                   <div
-                    className={`flex flex-col items-center text-center transition-all duration-500 rounded-[18px] w-93  pt-9.25 ${
-                      isCenter(index) ? "scale-110" : "scale-100"
+                    className={`flex flex-col items-center text-center transition-all duration-500 rounded-[18px] pt-6 lg:pt-9.25 ${
+                      isMobile ? "w-full" : "w-93"
+                    } ${
+                      isCenter(index) ? "scale-105 lg:scale-110" : "scale-100"
                     }`}
                     style={{
                       boxShadow: "0px 4px 12px 0px #0A332126",
@@ -141,8 +175,10 @@ const Team = () => {
                   >
                     {/* Profile Image */}
                     <div
-                      className={`rounded-full overflow-hidden mb-4 transition-all duration-500  ${
-                        isCenter(index) ? "w-55 h-55" : "w-50 h-50"
+                      className={`rounded-full overflow-hidden mb-4 transition-all duration-500 ${
+                        isCenter(index)
+                          ? "w-40 h-40 lg:w-55 lg:h-55"
+                          : "w-32 h-32 lg:w-50 lg:h-50"
                       }`}
                     >
                       <img
@@ -154,14 +190,14 @@ const Team = () => {
 
                     {/* Card with name and role */}
                     <div
-                      className={`w-full py-6 px-6 rounded-[18px] transition-all duration-500 mt-12 flex flex-col gap-4.5 ${
+                      className={`w-full py-4 lg:py-6 px-4 lg:px-6 rounded-[18px] transition-all duration-500 mt-8 lg:mt-12 flex flex-col gap-3 lg:gap-4.5 ${
                         isCenter(index)
                           ? "bg-[#00C281] text-black"
                           : "bg-[#A7CBB7] text-[black]"
                       }`}
                     >
                       <Typography
-                        fontSize={26}
+                        fontSize={{ xs: 18, lg: 20 }}
                         fontWeight={400}
                         className="mb-2"
                         color="#1A1A1A"
@@ -169,7 +205,7 @@ const Team = () => {
                         {member.name}
                       </Typography>
                       <Typography
-                        fontSize={24}
+                        fontSize={{ xs: 20, lg: 24 }}
                         fontWeight={400}
                         color={`${isCenter(index) ? "#FAFAFA" : "#00C281"}`}
                       >
@@ -201,7 +237,7 @@ const Team = () => {
         </div>
 
         {/* Dot Indicators */}
-        <div className="flex justify-center gap-2 mt-6 items-center">
+        <div className="flex justify-center gap-2 mt-4 lg:mt-6 items-center">
           {team.map((_, index) => (
             <button
               key={index}
@@ -213,10 +249,10 @@ const Team = () => {
                 <img
                   src={carousel}
                   alt="Active indicator"
-                  className="w-8 h-8"
+                  className="w-6 h-6 lg:w-8 lg:h-8"
                 />
               ) : (
-                <div className="w-3 h-3 rounded-full bg-gray-400" />
+                <div className="w-2.5 h-2.5 lg:w-3 lg:h-3 rounded-full bg-gray-400" />
               )}
             </button>
           ))}
