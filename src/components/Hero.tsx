@@ -6,11 +6,16 @@ const Hero = () => {
   return (
     <div className="flex flex-col lg:flex-row px-[6%] py-[4%] gap-8 lg:gap-16 text-white">
       {/* LEFT CONTENT */}
-      {/* LEFT CONTENT */}
       <div className="flex flex-col gap-6 lg:gap-12 flex-1 items-center lg:items-start text-center lg:text-left">
         {/* Badge */}
         <div className="rounded-[30px] bg-[#FAFAFA33] flex items-center gap-3 lg:gap-4 px-4 lg:px-6 py-2 w-fit mx-auto lg:mx-0">
-          <div className="bg-[#00C281] w-2.5 h-2.5 lg:w-3 lg:h-3 rounded-full" />
+          <div className="relative flex items-center justify-center">
+            {/* Glow pulse */}
+            <span className="absolute inline-flex h-full w-full rounded-full bg-[#00C281] opacity-75 animate-ping"></span>
+
+            {/* Solid dot */}
+            <span className="relative bg-[#00C281] w-2.5 h-2.5 lg:w-3 lg:h-3 rounded-full"></span>
+          </div>
           <Typography sx={{ fontSize: { xs: 12, lg: 18 }, color: "#00C281" }}>
             Join The Green Revolution
           </Typography>
@@ -51,6 +56,10 @@ const Hero = () => {
               px: 4,
               textTransform: "capitalize",
               fontSize: { xs: 16, md: 20 },
+              transition: "background-color 0.3s ease",
+              "&:hover": {
+                backgroundColor: "#1EDB9A",
+              },
             }}
           >
             Join The Movement
@@ -69,6 +78,11 @@ const Hero = () => {
               color: "#00C281",
               textTransform: "capitalize",
               fontSize: { xs: 16, md: 20 },
+              transition: "all 0.3s ease",
+              "&:hover": {
+                backgroundColor: "#5f6160",
+                color: "#000000",
+              },
             }}
           >
             Learn More

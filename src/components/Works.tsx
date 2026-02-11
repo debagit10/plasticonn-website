@@ -4,6 +4,31 @@ import location from "../assets/location.png";
 import recycle from "../assets/recycle.png";
 import impact from "../assets/impact.png";
 import circle from "../assets/circle.png";
+import { motion } from "framer-motion";
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 40,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  },
+};
 
 const Works = () => {
   const steps = [
@@ -74,26 +99,49 @@ const Works = () => {
       {/* Steps Section */}
       <div className="relative pt-8 md:pt-16">
         {/* Background Circle - Hidden on mobile */}
-        <div className="absolute inset-0 hidden md:flex items-center justify-center top-15 pointer-events-none z-0">
+        <div className="absolute inset-0 hidden md:flex items-center justify-center top-15 pointer-events-none z-100">
           <img src={circle} alt="" />
         </div>
 
         {/* Steps Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 relative z-10">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 relative z-10"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {steps.map((step, index) => (
-            <div
+            <motion.div
               key={step.title}
-              className="relative bg-white rounded-xl p-4 md:p-6 shadow-[0_0_12px_0_#0A332126] flex items-start md:items-center"
+              variants={cardVariants}
+              whileHover={{
+                scale: 1.04,
+                y: -8,
+                boxShadow: "0px 30px 70px -15px rgba(10,51,33,0.35)",
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 18,
+              }}
+              className="relative bg-white rounded-xl p-4 md:p-6 flex items-start md:items-center shadow-[0_0_12px_0_#0A332126]"
             >
               <div className="flex flex-col sm:flex-row gap-4 md:gap-10 w-full">
                 {/* Icon */}
-                <div className="bg-linear-to-br from-[#005C3D] to-[#00C281] rounded-[18px] w-16 h-16 md:w-20 md:h-20 flex items-center justify-center shrink-0">
+                <motion.div
+                  whileHover={{ rotate: 5, scale: 1.1 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="bg-linear-to-br from-[#005C3D] to-[#00C281] 
+                         rounded-[18px] w-16 h-16 md:w-20 md:h-20 
+                         flex items-center justify-center shrink-0"
+                >
                   <img
                     src={step.icon}
                     alt={step.title}
                     className="w-9 h-9 md:w-11.5 md:h-11.5"
                   />
-                </div>
+                </motion.div>
 
                 {/* Content */}
                 <div className="flex flex-col gap-2 md:gap-4.5 flex-1">
@@ -105,6 +153,7 @@ const Works = () => {
                   >
                     {step.title}
                   </Typography>
+
                   <Typography
                     sx={{
                       fontSize: { xs: 16, sm: 18, md: 24 },
@@ -117,7 +166,7 @@ const Works = () => {
               </div>
 
               {/* Step Number */}
-              <span className="absolute top-1 right-4 md:right-6">
+              <span className="absolute top-1 right-4 md:right-6 pointer-events-none">
                 <Typography
                   sx={{
                     fontSize: { xs: 60, sm: 80, md: 120 },
@@ -128,9 +177,9 @@ const Works = () => {
                   {String(index + 1).padStart(2, "0")}
                 </Typography>
               </span>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* Stats Cards */}

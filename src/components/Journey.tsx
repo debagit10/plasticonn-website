@@ -8,6 +8,7 @@ import launch from "../assets/rocket.png";
 import expansion from "../assets/expansion.png";
 import award from "../assets/award.png";
 import global from "../assets/global.png";
+import { motion } from "framer-motion";
 
 const Journey = () => {
   const journey = [
@@ -89,9 +90,19 @@ const Journey = () => {
           {/* Mobile Layout */}
           <div className="flex flex-col gap-6 lg:hidden">
             {journey.map((item, index) => (
-              <div key={index} className="flex flex-col gap-4">
-                {/* Card with Icon, Timeline, Title, Text, Stats */}
-                <div className="bg-white rounded-2xl p-5 shadow-sm flex flex-col gap-4">
+              <motion.div
+                key={index}
+                className="flex flex-col gap-4"
+                initial={{ x: index % 2 === 0 ? -100 : 100, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+              >
+                {/* Card */}
+                <motion.div
+                  className="bg-white rounded-2xl p-5 flex flex-col gap-4 shadow-sm transition-shadow duration-300 hover:shadow-lg"
+                  whileHover={{ scale: 1.02 }}
+                >
                   {/* Icon and Timeline */}
                   <div className="flex items-start gap-3">
                     <div className="w-12 h-12 bg-linear-to-br from-[#005C3D] to-[#00C281] rounded-xl flex items-center justify-center shrink-0">
@@ -122,106 +133,126 @@ const Journey = () => {
                     {item.text}
                   </Typography>
 
-                  {/* Stats Badge */}
+                  {/* Stats */}
                   <div className="bg-[#00C2811A] py-2 px-4 rounded-full text-center w-fit">
                     <Typography fontSize={14} fontWeight={400} color="#00C281">
                       {item.stats}
                     </Typography>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Image */}
-                <div className="w-full">
+                <motion.div
+                  className="w-full overflow-hidden rounded-2xl"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                >
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="rounded-2xl w-full h-auto object-cover"
+                    className="w-full h-auto object-cover"
                   />
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             ))}
           </div>
 
-          {/* Desktop Layout - Original Design */}
+          {/* Desktop Layout */}
           <div className="relative mb-24 hidden lg:flex flex-col gap-15">
-            {journey.map((item, index) => (
-              <div
-                key={index}
-                className={`grid grid-cols-2 gap-50 items-center relative ${
-                  index % 2 === 0 ? "" : "direction-reverse"
-                }`}
-              >
-                {/* Image - First for even indices (0, 2, 4...) */}
+            {journey.map((item, index) => {
+              const isEven = index % 2 === 0;
+
+              return (
                 <div
-                  className={`flex rounded-[20px] ${
-                    index % 2 === 0 ? "justify-end" : "justify-start order-2"
+                  key={index}
+                  className={`grid grid-cols-2 gap-50 items-center relative ${
+                    isEven ? "" : "flex-row-reverse"
                   }`}
                 >
-                  <img
-                    src={item.image}
-                    alt="Plastic waste"
-                    className="rounded-[20px] h-88 w-173.5"
-                  />
-                </div>
-
-                {/* Circle in center */}
-                <div className="absolute inset-0 flex items-center justify-center top-15 left-2 pointer-events-none z-100">
-                  <img src={circle} alt="" />
-                </div>
-
-                {/* Content Card */}
-                <div
-                  className={`flex p-9 rounded-[20px] gap-6.5 bg-[#FAFAFA] shadow-[0px_1px_3px_1px_#00000026] ${
-                    index % 2 === 0
-                      ? "justify-between"
-                      : "justify-between flex-row-reverse order-1"
-                  }`}
-                >
-                  <div
-                    className={`flex flex-col gap-4.5 ${
-                      index % 2 === 0 ? "items-end" : "items-start"
+                  {/* Image */}
+                  <motion.div
+                    className={`flex rounded-[20px] overflow-hidden ${
+                      isEven ? "justify-end" : "justify-start order-2"
                     }`}
+                    initial={{ x: isEven ? 100 : -100, opacity: 0 }}
+                    whileInView={{ x: 0, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
                   >
-                    <Typography fontSize={24} fontWeight={400} color="#00C281">
-                      {item.timeline}
-                    </Typography>
+                    <img
+                      src={item.image}
+                      alt="Plastic waste"
+                      className="rounded-[20px] h-88 w-173.5 object-cover"
+                    />
+                  </motion.div>
 
-                    <Typography
-                      fontSize={42}
-                      fontWeight={400}
-                      color="#1A1A1A"
-                      className="mb-3"
-                      sx={{ fontFamily: "Georgia, serif" }}
+                  {/* Circle */}
+                  <div className="absolute inset-0 flex items-center justify-center top-15 left-2 pointer-events-none z-100">
+                    <img src={circle} alt="" />
+                  </div>
+
+                  {/* Content Card */}
+                  <motion.div
+                    className={`flex p-9 rounded-[20px] gap-6.5 bg-[#FAFAFA] shadow-[0px_1px_3px_1px_#00000026] ${
+                      isEven
+                        ? "justify-between"
+                        : "justify-between flex-row-reverse"
+                    }`}
+                    initial={{ x: isEven ? -100 : 100, opacity: 0 }}
+                    whileInView={{ x: 0, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+                  >
+                    <div
+                      className={`flex flex-col gap-4.5 ${
+                        isEven ? "items-end" : "items-start"
+                      }`}
                     >
-                      {item.title}
-                    </Typography>
-
-                    <Typography
-                      fontSize={24}
-                      fontWeight={300}
-                      color="#1A1A1A"
-                      sx={{ textAlign: index % 2 === 0 ? "right" : "left" }}
-                    >
-                      {item.text}
-                    </Typography>
-
-                    <div className="bg-[#00C2811A] py-4.5 px-6.5 rounded-[26px] text-center">
                       <Typography
                         fontSize={24}
                         fontWeight={400}
                         color="#00C281"
                       >
-                        {item.stats}
+                        {item.timeline}
                       </Typography>
-                    </div>
-                  </div>
 
-                  <div className="w-40 h-20 bg-linear-to-br from-[#005C3D] to-[#00C281] rounded-xl flex items-center justify-center shadow-lg">
-                    <img src={item.icon} alt="" className="" />
-                  </div>
+                      <Typography
+                        fontSize={42}
+                        fontWeight={400}
+                        color="#1A1A1A"
+                        className="mb-3"
+                        sx={{ fontFamily: "Georgia, serif" }}
+                      >
+                        {item.title}
+                      </Typography>
+
+                      <Typography
+                        fontSize={24}
+                        fontWeight={300}
+                        color="#1A1A1A"
+                        sx={{ textAlign: isEven ? "right" : "left" }}
+                      >
+                        {item.text}
+                      </Typography>
+
+                      <div className="bg-[#00C2811A] py-4.5 px-6.5 rounded-[26px] text-center">
+                        <Typography
+                          fontSize={24}
+                          fontWeight={400}
+                          color="#00C281"
+                        >
+                          {item.stats}
+                        </Typography>
+                      </div>
+                    </div>
+
+                    <div className="w-40 h-20 bg-linear-to-br from-[#005C3D] to-[#00C281] rounded-xl flex items-center justify-center shadow-lg">
+                      <img src={item.icon} alt="" />
+                    </div>
+                  </motion.div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

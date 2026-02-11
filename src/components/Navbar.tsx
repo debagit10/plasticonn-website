@@ -27,10 +27,13 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <ul className="hidden md:flex gap-10 items-center">
           {["About Us", "Gallery", "Our Impact", "How It Works"].map((item) => (
-            <li key={item} className="group relative cursor-pointer capitalize">
+            <li
+              key={item}
+              className="group relative cursor-pointer capitalize hover:text-[#00C281]"
+            >
               <Typography fontSize={18}>{item}</Typography>
 
-              <span className="absolute -bottom-1.25 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:-translate-x-1/2"></span>
+              <span className="absolute -bottom-1.25 left-1/2 w-0 h-0.5 bg-[#00C281] transition-all duration-300 group-hover:w-full group-hover:-translate-x-1/2"></span>
             </li>
           ))}
 

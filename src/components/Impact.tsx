@@ -5,6 +5,14 @@ import co2 from "../assets/co2.png";
 import recycle from "../assets/recycle.png";
 import { PieChart } from "@mui/x-charts/PieChart";
 
+import { motion } from "framer-motion";
+
+// Variants for the slide-in animation
+const cardVariants = {
+  hidden: { opacity: 0, x: -50 }, // start slightly left and invisible
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }, // slide in
+};
+
 const Impact = () => {
   const stats = [
     { month: "Jan", value: 50, stat: "100 kg" },
@@ -101,35 +109,46 @@ const Impact = () => {
       {/* Impact Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-14.75">
         {impact.map((item, index) => (
-          <div
+          <motion.div
             key={index}
             className="bg-[#FAFAFA80] py-6 lg:py-8 px-6 lg:px-8.5 rounded-[18px] shadow-lg flex flex-col gap-3 lg:gap-4.5"
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ delay: index * 0.15 }} // stagger effect
           >
-            <div className="bg-linear-to-br from-[#005C3D] to-[#00C281] rounded-[18px] w-16 h-16 lg:w-20 lg:h-20 flex items-center justify-center">
-              <img
-                src={item.icon}
-                alt={item.title}
-                className="w-9 h-9 lg:w-11.5 lg:h-11.5"
-              />
-            </div>
-            <Typography
-              fontSize={{ xs: 16, lg: 18 }}
-              fontWeight={400}
-              color="#1A1A1A"
+            {/* Hoverable content */}
+            <motion.div
+              className="flex flex-col gap-3 lg:gap-4.5 transform transition-transform duration-300 hover:scale-105"
+              whileHover={{ scale: 1.05 }}
             >
-              {item.title}
-            </Typography>
-            <Typography
-              fontSize={{ xs: 36, lg: 46 }}
-              fontWeight={400}
-              color="#00C281"
-            >
-              {item.stat}{" "}
-              <span className="text-[20px] lg:text-[28px] font-light text-[#1A1A1A]">
-                {item.unit}
-              </span>
-            </Typography>
-          </div>
+              <div className="bg-linear-to-br from-[#005C3D] to-[#00C281] rounded-[18px] w-16 h-16 lg:w-20 lg:h-20 flex items-center justify-center">
+                <img
+                  src={item.icon}
+                  alt={item.title}
+                  className="w-9 h-9 lg:w-11.5 lg:h-11.5"
+                />
+              </div>
+              <Typography
+                fontSize={{ xs: 16, lg: 18 }}
+                fontWeight={400}
+                color="#1A1A1A"
+              >
+                {item.title}
+              </Typography>
+              <Typography
+                fontSize={{ xs: 36, lg: 46 }}
+                fontWeight={400}
+                color="#00C281"
+              >
+                {item.stat}{" "}
+                <span className="text-[20px] lg:text-[28px] font-light text-[#1A1A1A]">
+                  {item.unit}
+                </span>
+              </Typography>
+            </motion.div>
+          </motion.div>
         ))}
       </div>
 

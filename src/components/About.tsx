@@ -4,6 +4,31 @@ import innovation from "../assets/innovation.png";
 import collaboration from "../assets/collaboration.png";
 import community from "../assets/community.png";
 import about from "../images/about.gif";
+import { motion } from "framer-motion";
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 40,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  },
+};
 
 const About = () => {
   const values = [
@@ -89,11 +114,25 @@ const About = () => {
         </div>
 
         {/* Values Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10">
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {values.map((value) => (
-            <div
+            <motion.div
               key={value.title}
-              className="flex flex-col text-center gap-4 md:gap-6.5 py-6 md:py-8 px-6 md:px-8.5 rounded-[18px] bg-[#FAFAFA80] shadow-[0_0_12px_0_#0A332126]"
+              variants={cardVariants}
+              className="flex flex-col text-center gap-4 md:gap-6.5 
+          py-6 md:py-8 px-6 md:px-8.5 
+          rounded-[18px] 
+          bg-[#FAFAFA80] 
+          shadow-[0_0_12px_0_#0A332126]
+          transition-all duration-300
+          hover:shadow-[0_12px_40px_0_rgba(10,51,33,0.25)]
+          hover:-translate-y-1"
             >
               <div className="flex justify-center">
                 <div className="flex justify-center bg-[#00C2811A] rounded-full w-20 h-20 md:w-25 md:h-25 items-center">
@@ -124,9 +163,9 @@ const About = () => {
               >
                 {value.text}
               </Typography>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* Vision and Mission Section */}
