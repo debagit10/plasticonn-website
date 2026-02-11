@@ -2,16 +2,19 @@ import { Button, Typography } from "@mui/material";
 import { useState } from "react";
 import logo from "../logo/logo.png";
 import { IoMenu, IoCloseSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   return (
     <>
       {/* NAVBAR */}
       <div className="flex justify-between items-center px-6 md:px-16 py-4 bg-[#2F5F4B] text-white">
         {/* Logo */}
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 items-center" onClick={() => navigate("/")}>
           <img
             src={logo}
             alt="Plasticonn logo"
@@ -26,12 +29,24 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex gap-10 items-center">
-          {["About Us", "Gallery", "Our Impact", "How It Works"].map((item) => (
+          {[
+            { name: "About Us", path: "about" },
+            //{ name: "Gallery", path: "gallery" },
+            { name: "Impact", path: "impact" },
+            { name: "How it works", path: "works" },
+          ].map((item) => (
             <li
-              key={item}
+              key={item.name}
               className="group relative cursor-pointer capitalize hover:text-[#00C281]"
             >
-              <Typography fontSize={18}>{item}</Typography>
+              <Typography
+                fontSize={18}
+                onClick={() =>
+                  navigate("/", { state: { scrollTo: item.path } })
+                }
+              >
+                {item.name}
+              </Typography>
 
               <span className="absolute -bottom-1.25 left-1/2 w-0 h-0.5 bg-[#00C281] transition-all duration-300 group-hover:w-full group-hover:-translate-x-1/2"></span>
             </li>
@@ -66,7 +81,10 @@ const Navbar = () => {
         <div className="fixed inset-0 bg-white z-50 flex flex-col h-[60%]">
           {/* Header */}
           <div className="flex justify-between items-center px-6 py-4 border-b">
-            <div className="flex items-center gap-2">
+            <div
+              className="flex items-center gap-2"
+              onClick={() => navigate("/")}
+            >
               <img
                 src={logo}
                 alt="Plasticonn logo"
@@ -86,13 +104,22 @@ const Navbar = () => {
 
           {/* Menu Items */}
           <div className="flex flex-col items-center gap-4 mt-7 text-[#2F5F4B]">
-            {["Home", "About Us", "Gallery", "Impact", "How It Works"].map(
-              (item) => (
-                <Typography key={item} fontSize={18}>
-                  {item}
-                </Typography>
-              ),
-            )}
+            {[
+              { name: "About Us", path: "about" },
+              //{ name: "Gallery", path: "gallery" },
+              { name: "Impact", path: "impact" },
+              { name: "How it works", path: "works" },
+            ].map((item) => (
+              <Typography
+                key={item.name}
+                fontSize={18}
+                onClick={() =>
+                  navigate("/", { state: { scrollTo: item.path } })
+                }
+              >
+                {item.name}
+              </Typography>
+            ))}
           </div>
 
           {/* Button */}

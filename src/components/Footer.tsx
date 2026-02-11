@@ -4,8 +4,11 @@ import { IoLocationOutline, IoMailOutline } from "react-icons/io5";
 import { FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedinIn } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
+
   const socials = [
     { icon: <FaInstagram />, link: "", name: "Instagram" },
     { icon: <FaXTwitter />, link: "", name: "X/Twitter" },
@@ -67,15 +70,21 @@ const Footer = () => {
               </h4>
               <ul className="flex flex-col gap-2">
                 {[
-                  "About Us",
-                  "Our Impact",
-                  "How It Works",
-                  "Partners",
-                  "Blogs",
+                  { name: "About Us", path: "about" },
+                  { name: "Our Impact", path: "impact" },
+                  { name: "How it works", path: "works" },
+                  { name: "Partners", path: "partners" },
+                  { name: "Blogs", path: "blogs" },
                 ].map((item) => (
-                  <li key={item}>
+                  <li
+                    key={item.name}
+                    onClick={() =>
+                      navigate("/", { state: { scrollTo: item.path } })
+                    }
+                    className="cursor-pointer"
+                  >
                     <Typography fontSize={18} fontWeight={500} color="#E9F3EE">
-                      {item}
+                      {item.name}
                     </Typography>
                   </li>
                 ))}

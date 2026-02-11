@@ -88,15 +88,16 @@ const Journey = () => {
           <div className="absolute left-1/2 top-20 bottom-0 w-1 bg-[#00C281] transform -translate-x-1/2 hidden lg:block" />
 
           {/* Mobile Layout */}
-          <div className="flex flex-col gap-6 lg:hidden">
+          {/* Mobile Layout */}
+          <div className="flex flex-col gap-6 lg:hidden overflow-hidden">
             {journey.map((item, index) => (
               <motion.div
                 key={index}
-                className="flex flex-col gap-4"
-                initial={{ x: index % 2 === 0 ? -100 : 100, opacity: 0 }}
+                className="flex flex-col gap-4 w-full"
+                initial={{ x: index % 2 === 0 ? -30 : 30, opacity: 0 }} // smaller offset
                 whileInView={{ x: 0, opacity: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
               >
                 {/* Card */}
                 <motion.div
@@ -150,7 +151,7 @@ const Journey = () => {
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-auto object-cover"
+                    className="w-full h-auto object-cover max-w-full"
                   />
                 </motion.div>
               </motion.div>
@@ -202,6 +203,7 @@ const Journey = () => {
                     whileInView={{ x: 0, opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+                    whileHover={{ scale: 1.02 }}
                   >
                     <div
                       className={`flex flex-col gap-4.5 ${

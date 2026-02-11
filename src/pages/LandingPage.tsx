@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import About from "../components/About";
 import Blogs from "../components/Blog";
 import Footer from "../components/Footer";
@@ -10,25 +12,54 @@ import Team from "../components/Team";
 import Works from "../components/Works";
 
 const LandingPage = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      const section = document.getElementById(location.state.scrollTo);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
+
   return (
     <div className="bg-[#043B24]">
-      <Navbar />
+      <div className="fixed w-full z-100 ">
+        <Navbar />
+      </div>
 
-      <Hero />
+      <div className="pt-20">
+        <Hero />
+      </div>
 
-      <About />
+      <div id="about">
+        <About />
+      </div>
 
-      <Works />
+      <div id="works">
+        <Works />
+      </div>
 
-      <Impact />
+      <div id="impact">
+        <Impact />
+      </div>
 
-      <Team />
+      <div id="team">
+        <Team />
+      </div>
 
-      <Journey />
+      <div id="journey">
+        <Journey />
+      </div>
 
-      <Blogs />
+      <div id="blogs">
+        <Blogs />
+      </div>
 
-      <Partners />
+      <div id="partners">
+        <Partners />
+      </div>
 
       <Footer />
     </div>
