@@ -60,7 +60,7 @@ const Navbar = () => {
 
       {/* MOBILE MENU OVERLAY */}
       {open && (
-        <div className="fixed inset-0 bg-white z-50 flex flex-col h-[50%]">
+        <div className="fixed inset-0 bg-white z-50 flex flex-col h-[60%]">
           {/* Header */}
           <div className="flex justify-between items-center px-6 py-4 border-b">
             <div className="flex items-center gap-2">
