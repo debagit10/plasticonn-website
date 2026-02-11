@@ -6,9 +6,10 @@ const Hero = () => {
   return (
     <div className="flex flex-col lg:flex-row px-[6%] py-[4%] gap-8 lg:gap-16 text-white">
       {/* LEFT CONTENT */}
-      <div className="flex flex-col gap-6 lg:gap-12 flex-1">
+      {/* LEFT CONTENT */}
+      <div className="flex flex-col gap-6 lg:gap-12 flex-1 items-center lg:items-start text-center lg:text-left">
         {/* Badge */}
-        <div className="rounded-[30px] bg-[#FAFAFA33] flex items-center gap-3 lg:gap-4 px-4 lg:px-6 py-2 w-fit">
+        <div className="rounded-[30px] bg-[#FAFAFA33] flex items-center gap-3 lg:gap-4 px-4 lg:px-6 py-2 w-fit mx-auto lg:mx-0">
           <div className="bg-[#00C281] w-2.5 h-2.5 lg:w-3 lg:h-3 rounded-full" />
           <Typography sx={{ fontSize: { xs: 12, lg: 18 }, color: "#00C281" }}>
             Join The Green Revolution
@@ -39,18 +40,17 @@ const Hero = () => {
           sustainable plastic management in Nigeria.
         </Typography>
 
-        {/* Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-6">
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
           <Button
             variant="contained"
             disableElevation
             sx={{
               borderRadius: "16px",
               backgroundColor: "#00C281",
-              height: { xs: "48px", lg: "56px" },
+              height: "56px",
               px: 4,
               textTransform: "capitalize",
-              fontSize: { xs: 14, sm: 16, lg: 20 },
+              fontSize: { xs: 16, md: 20 },
             }}
           >
             Join The Movement
@@ -64,35 +64,42 @@ const Hero = () => {
               borderRadius: "16px",
               border: "1px solid #FAFAFA",
               backgroundColor: "#797B7AB2",
-              height: { xs: "48px", lg: "56px" },
+              height: "56px",
               px: 4,
               color: "#00C281",
               textTransform: "capitalize",
-              fontSize: { xs: 14, sm: 16, lg: 20 },
+              fontSize: { xs: 16, md: 20 },
             }}
           >
             Learn More
           </Button>
         </div>
 
-        {/* Stats */}
         <div className="flex flex-col gap-4 sm:flex-row sm:gap-8 text-center sm:text-left">
+          {" "}
           {[
             { value: "5,000+", label: "Active Collectors" },
             { value: "200+", label: "Collection Centers" },
             { value: "50+", label: "Recycling Centers" },
           ].map((item, i) => (
-            <div key={i} className="flex-1">
-              <Typography
-                fontSize={{ xs: 24, lg: 28 }}
-                fontWeight={500}
-                color="#00C281"
-              >
-                {item.value}
-              </Typography>
-              <Typography fontSize={{ xs: 14, lg: 16 }} fontWeight={300}>
-                {item.label}
-              </Typography>
+            <div key={i} className="flex items-center">
+              <div className="text-center sm:text-left px-4">
+                <Typography
+                  fontSize={{ xs: 24, lg: 28 }}
+                  fontWeight={500}
+                  color="#00C281"
+                >
+                  {item.value}
+                </Typography>
+
+                <Typography
+                  fontSize={{ xs: 14, lg: 16 }}
+                  fontWeight={300}
+                  color="#FAFAFA"
+                >
+                  {item.label}
+                </Typography>
+              </div>
             </div>
           ))}
         </div>
@@ -124,7 +131,11 @@ const Hero = () => {
                   </Typography>
                 </div>
 
-                <Divider orientation="vertical" flexItem />
+                <Divider
+                  orientation="vertical"
+                  flexItem
+                  sx={{ borderColor: "#FAFAFA" }}
+                />
 
                 <div>
                   <Typography color="#00C281" fontSize={{ xs: 18, lg: 20 }}>

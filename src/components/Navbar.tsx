@@ -27,8 +27,10 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <ul className="hidden md:flex gap-10 items-center">
           {["About Us", "Gallery", "Our Impact", "How It Works"].map((item) => (
-            <li key={item}>
+            <li key={item} className="group relative cursor-pointer capitalize">
               <Typography fontSize={18}>{item}</Typography>
+
+              <span className="absolute -bottom-1.25 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:-translate-x-1/2"></span>
             </li>
           ))}
 
@@ -58,7 +60,7 @@ const Navbar = () => {
 
       {/* MOBILE MENU OVERLAY */}
       {open && (
-        <div className="fixed inset-0 bg-white z-50 flex flex-col">
+        <div className="fixed inset-0 bg-white z-50 flex flex-col h-[50%]">
           {/* Header */}
           <div className="flex justify-between items-center px-6 py-4 border-b">
             <div className="flex items-center gap-2">
@@ -80,7 +82,7 @@ const Navbar = () => {
           </div>
 
           {/* Menu Items */}
-          <div className="flex flex-col items-center gap-8 mt-12 text-[#2F5F4B]">
+          <div className="flex flex-col items-center gap-4 mt-7 text-[#2F5F4B]">
             {["Home", "About Us", "Gallery", "Impact", "How It Works"].map(
               (item) => (
                 <Typography key={item} fontSize={18}>
