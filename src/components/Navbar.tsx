@@ -113,9 +113,12 @@ const Navbar = () => {
               <Typography
                 key={item.name}
                 fontSize={18}
-                onClick={() =>
-                  navigate("/", { state: { scrollTo: item.path } })
-                }
+                onClick={() => {
+                  navigate("/", { state: { scrollTo: item.path } });
+                  setTimeout(() => {
+                    setOpen(false);
+                  }, 500);
+                }}
               >
                 {item.name}
               </Typography>
