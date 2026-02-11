@@ -7,6 +7,8 @@ import mappers from "../images/mappers.jpg";
 import goodwall from "../images/goodwall.png";
 import carousel from "../assets/carousel.png";
 
+import { useSwipeable } from "react-swipeable";
+
 const Team = () => {
   const team = [
     {
@@ -67,6 +69,17 @@ const Team = () => {
   const goToSlide = (index: number) => {
     setCurrentIndex(team.length + index);
   };
+
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => {
+      setCurrentIndex((prev) => prev + 1);
+    },
+    onSwipedRight: () => {
+      setCurrentIndex((prev) => prev - 1);
+    },
+    preventScrollOnSwipe: true,
+    trackMouse: true, // allows dragging with mouse too (optional)
+  });
 
   useEffect(() => {
     if (currentIndex === 0) {
@@ -144,7 +157,7 @@ const Team = () => {
         {/* Carousel Container */}
         <div className="relative">
           {/* Cards Container */}
-          <div className="overflow-hidden py-4 lg:py-8">
+          <div className="overflow-hidden py-4 lg:py-8" {...swipeHandlers}>
             <div
               className={`flex gap-0 lg:gap-10 items-center ${
                 isTransitioning
