@@ -4,6 +4,7 @@ import unicef from "../images/unicef.png";
 import mappers from "../images/mappers.jpg";
 import goodwall from "../images/goodwall.png";
 import carousel from "../assets/carousel.png";
+import { useSwipeable } from "react-swipeable";
 
 import { useEffect, useState } from "react";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
@@ -39,6 +40,17 @@ const Partners = () => {
   const goToSlide = (index: number) => {
     setCurrentIndex(partners.length + index);
   };
+
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => {
+      setCurrentIndex((prev) => prev + 1);
+    },
+    onSwipedRight: () => {
+      setCurrentIndex((prev) => prev - 1);
+    },
+    preventScrollOnSwipe: true,
+    trackMouse: true, // allows dragging with mouse too (optional)
+  });
 
   // Handle infinite looping
   useEffect(() => {
@@ -94,7 +106,7 @@ const Partners = () => {
       {/* Carousel */}
       <div className="w-full max-w-7xl mx-auto px-4">
         <div className="relative">
-          <div className="overflow-hidden">
+          <div className="overflow-hidden" {...swipeHandlers}>
             <div
               className={`flex gap-6 ${
                 isTransitioning
