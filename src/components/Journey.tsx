@@ -88,7 +88,6 @@ const Journey = () => {
           <div className="absolute left-1/2 top-20 bottom-0 w-1 bg-[#00C281] transform -translate-x-1/2 hidden lg:block" />
 
           {/* Mobile Layout */}
-          {/* Mobile Layout */}
           <div className="flex flex-col gap-6 lg:hidden overflow-hidden">
             {journey.map((item, index) => (
               <motion.div
@@ -188,7 +187,7 @@ const Journey = () => {
                   </motion.div>
 
                   {/* Circle */}
-                  <div className="absolute inset-0 flex items-center justify-center top-15 left-2 pointer-events-none z-100">
+                  <div className="absolute inset-0 flex items-center justify-center top-15 left-2 pointer-events-none z-50">
                     <img src={circle} alt="" />
                   </div>
 
