@@ -119,9 +119,10 @@ const Works = () => {
                 scale: 1.04,
                 y: -8,
                 boxShadow: "0px 30px 70px -15px rgba(10,51,33,0.35)",
+                backgroundColor: "rgba(0, 194, 129, 0.06)",
               }}
               transition={{
-                type: "spring",
+                //type: "spring",
                 stiffness: 260,
                 damping: 18,
               }}
@@ -243,7 +244,7 @@ const Works = () => {
               color: "#1A1A1A",
             }}
           >
-            Credit
+            Credit Rewards
           </Typography>
         </div>
       </div>

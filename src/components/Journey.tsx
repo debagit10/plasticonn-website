@@ -143,14 +143,14 @@ const Journey = () => {
 
                 {/* Image */}
                 <motion.div
-                  className="w-full overflow-hidden rounded-2xl"
+                  className="overflow-hidden rounded-xl"
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.3 }}
                 >
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-auto object-cover max-w-full"
+                    className="h-70 w-220"
                   />
                 </motion.div>
               </motion.div>
@@ -182,7 +182,7 @@ const Journey = () => {
                     <img
                       src={item.image}
                       alt="Plastic waste"
-                      className="rounded-[20px] h-88 w-173.5 object-cover"
+                      className="rounded-[20px] h-130 w-200"
                     />
                   </motion.div>
 

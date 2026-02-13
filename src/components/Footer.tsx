@@ -153,7 +153,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <Divider sx={{ borderColor: "#FAFAFA", marginTop: "2rem" }} />
+      <Divider sx={{ borderColor: "rgba(250, 250, 250, 0.4)", mt: "2rem" }} />
 
       {/* BOTTOM BAR */}
       <div className="max-w-7xl mx-auto py-6 flex flex-col md:flex-row items-center justify-between gap-4">

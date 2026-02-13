@@ -1,5 +1,5 @@
 import { Button, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../logo/logo.png";
 import { IoMenu, IoCloseSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
@@ -7,12 +7,29 @@ import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const navigate = useNavigate();
 
   return (
     <>
       {/* NAVBAR */}
-      <div className="flex justify-between items-center px-6 md:px-16 py-4 bg-[#2F5F4B] text-white">
+      <div
+        className={`flex justify-between items-center px-6 md:px-16 py-4 fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-[#FAFAFA33] backdrop-blur-md shadow-[0px_6px_8px_0px_#1A1A1A26] text-[#00C281]"
+            : "bg-[#2F5F4B] text-white"
+        }`}
+      >
         {/* Logo */}
         <div className="flex gap-4 items-center" onClick={() => navigate("/")}>
           <img
@@ -37,7 +54,7 @@ const Navbar = () => {
           ].map((item) => (
             <li
               key={item.name}
-              className="group relative cursor-pointer capitalize hover:text-[#00C281]"
+              className="group relative cursor-pointer capitalize hover:text-[#00C281] transition-colors duration-300"
             >
               <Typography
                 fontSize={18}

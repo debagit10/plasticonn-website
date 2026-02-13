@@ -4,7 +4,7 @@ import { IoMdArrowForward } from "react-icons/io";
 
 const Hero = () => {
   return (
-    <div className="flex flex-col lg:flex-row px-[6%] py-[4%] gap-8 lg:gap-16 text-white">
+    <div className="flex flex-col lg:flex-row px-[6%] pt-[4%] pb-[15%] md:pb-[6%] gap-8 lg:gap-16 text-white">
       {/* LEFT CONTENT */}
       <div className="flex flex-col gap-6 lg:gap-12 flex-1 items-center lg:items-start text-center lg:text-left">
         {/* Badge */}
@@ -89,15 +89,17 @@ const Hero = () => {
           </Button>
         </div>
 
-        <div className="flex flex-col gap-4 sm:flex-row sm:gap-8 text-center sm:text-left">
-          {" "}
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-center sm:text-left">
           {[
             { value: "5,000+", label: "Active Collectors" },
             { value: "200+", label: "Collection Centers" },
             { value: "50+", label: "Recycling Centers" },
-          ].map((item, i) => (
-            <div key={i} className="flex items-center">
-              <div className="text-center sm:text-left px-4">
+          ].map((item, i, arr) => (
+            <div
+              key={i}
+              className="flex flex-col sm:flex-row items-center sm:items-start relative"
+            >
+              <div className="px-4">
                 <Typography
                   fontSize={{ xs: 24, lg: 28 }}
                   fontWeight={500}
@@ -105,7 +107,6 @@ const Hero = () => {
                 >
                   {item.value}
                 </Typography>
-
                 <Typography
                   fontSize={{ xs: 14, lg: 16 }}
                   fontWeight={300}
@@ -114,6 +115,16 @@ const Hero = () => {
                   {item.label}
                 </Typography>
               </div>
+
+              {/* Vertical divider on desktop */}
+              {i !== arr.length - 1 && (
+                <div className="hidden sm:block border-r border-gray-500 h-12 ml-4 mt-3"></div>
+              )}
+
+              {/* Horizontal divider on mobile */}
+              {i !== arr.length - 1 && (
+                <div className="block sm:hidden border-b border-gray-500 w-full mt-2"></div>
+              )}
             </div>
           ))}
         </div>
@@ -148,7 +159,7 @@ const Hero = () => {
                 <Divider
                   orientation="vertical"
                   flexItem
-                  sx={{ borderColor: "#FAFAFA" }}
+                  sx={{ borderColor: "rgba(250, 250, 250, 0.4)" }}
                 />
 
                 <div>

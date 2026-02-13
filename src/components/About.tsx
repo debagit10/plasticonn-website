@@ -135,7 +135,7 @@ const About = () => {
           hover:-translate-y-1"
             >
               <div className="flex justify-center">
-                <div className="flex justify-center bg-[#00C2811A] rounded-full w-20 h-20 md:w-25 md:h-25 items-center">
+                <div className="flex justify-center bg-[#00C2811A] hover:text-white rounded-full w-20 h-20 md:w-25 md:h-25 items-center">
                   <img
                     src={value.icon}
                     alt={value.title}
@@ -173,14 +173,16 @@ const About = () => {
         <div className="flex flex-col gap-8 md:gap-14 flex-1">
           {/* Vision */}
           <div className="flex flex-col gap-4 md:gap-6.5">
-            <Typography
-              sx={{
-                fontSize: { xs: 24, sm: 28, md: 36 },
-                fontWeight: 400,
-              }}
-            >
-              Our Vision
-            </Typography>
+            <div className="flex justify-center md:justify-start">
+              <Typography
+                sx={{
+                  fontSize: { xs: 24, sm: 28, md: 36 },
+                  fontWeight: 400,
+                }}
+              >
+                Our Vision
+              </Typography>
+            </div>
             <Typography
               sx={{
                 fontSize: { xs: 16, sm: 18, md: 20 },
@@ -194,14 +196,16 @@ const About = () => {
 
           {/* Mission */}
           <div className="flex flex-col gap-4 md:gap-6.5">
-            <Typography
-              sx={{
-                fontSize: { xs: 24, sm: 28, md: 36 },
-                fontWeight: 400,
-              }}
-            >
-              Our Mission
-            </Typography>
+            <div className="flex justify-center md:justify-start">
+              <Typography
+                sx={{
+                  fontSize: { xs: 24, sm: 28, md: 36 },
+                  fontWeight: 400,
+                }}
+              >
+                Our Vision
+              </Typography>
+            </div>
             <Typography
               sx={{
                 fontSize: { xs: 16, sm: 18, md: 20 },

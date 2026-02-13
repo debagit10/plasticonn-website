@@ -214,9 +214,9 @@ const Impact = () => {
         </div>
 
         {/* Pie Chart */}
-        <div className="bg-[#FAFAFA] py-6 lg:py-9 px-4 lg:pr-2 lg:px-5 flex flex-col gap-4 lg:gap-6.5 rounded-[18px] lg:w-191.75">
-          <div className="flex flex-col sm:flex-row gap-4 lg:gap-2 items-center justify-center">
-            <div className="flex justify-center">
+        <div className="bg-[#FAFAFA] py-6 lg:py-9 px-4 lg:px-6 flex flex-col gap-4 lg:gap-6.5 rounded-[18px] w-full max-w-191.75 mx-auto">
+          <div className="flex flex-col sm:flex-row gap-6 items-center justify-center text-center md:pt-20">
+            <div className="flex justify-center items-center w-full">
               <PieChart
                 series={[
                   {
@@ -233,30 +233,34 @@ const Impact = () => {
               />
             </div>
 
-            <div className="flex flex-col gap-2 lg:gap-3 lg:mr-10">
-              {data.map((item, index) => (
-                <div key={index} className="flex items-center gap-2 lg:gap-3">
+            <div className="flex justify-center w-full">
+              <div className="flex flex-col gap-2 lg:gap-3">
+                {data.map((item, index) => (
                   <div
-                    className="w-3 h-3 rounded-full shrink-0"
-                    style={{ backgroundColor: item.color }}
-                  />
-                  <Typography
-                    fontSize={{ xs: 13, lg: 14 }}
-                    fontWeight={400}
-                    color="#1A1A1A"
-                    className="min-w-15"
+                    key={index}
+                    className="flex items-center justify-center gap-2 lg:gap-3"
                   >
-                    {item.label}
-                  </Typography>
-                  <Typography
-                    fontSize={{ xs: 13, lg: 14 }}
-                    fontWeight={400}
-                    color="#6B7280"
-                  >
-                    {item.value}%
-                  </Typography>
-                </div>
-              ))}
+                    <div
+                      className="w-3 h-3 rounded-full shrink-0"
+                      style={{ backgroundColor: item.color }}
+                    />
+                    <Typography
+                      fontSize={{ xs: 13, lg: 14 }}
+                      fontWeight={400}
+                      color="#1A1A1A"
+                    >
+                      {item.label}
+                    </Typography>
+                    <Typography
+                      fontSize={{ xs: 13, lg: 14 }}
+                      fontWeight={400}
+                      color="#6B7280"
+                    >
+                      {item.value}%
+                    </Typography>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -297,13 +301,13 @@ const Impact = () => {
             orientation="vertical"
             flexItem
             sx={{
-              borderColor: "#FAFAFA",
+              borderColor: "rgba(250, 250, 250, 0.4)",
               display: { xs: "none", sm: "block" },
             }}
           />
           <Divider
             sx={{
-              borderColor: "#FAFAFA",
+              borderColor: "rgba(250, 250, 250, 0.4)",
               display: { xs: "block", sm: "none" },
               width: "100%",
               maxWidth: "200px",
@@ -331,13 +335,13 @@ const Impact = () => {
             orientation="vertical"
             flexItem
             sx={{
-              borderColor: "#FAFAFA",
+              borderColor: "rgba(250, 250, 250, 0.4)",
               display: { xs: "none", sm: "block" },
             }}
           />
           <Divider
             sx={{
-              borderColor: "#FAFAFA",
+              borderColor: "rgba(250, 250, 250, 0.4)",
               display: { xs: "block", sm: "none" },
               width: "100%",
               maxWidth: "200px",
