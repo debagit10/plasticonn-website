@@ -247,8 +247,8 @@ const Journey = () => {
                       </div>
                     </div>
 
-                    <div className="w-40 h-20 bg-linear-to-br from-[#005C3D] to-[#00C281] rounded-xl flex items-center justify-center shadow-lg">
-                      <img src={item.icon} alt="" />
+                    <div className="w-15 h-15 bg-linear-to-br from-[#005C3D] to-[#00C281] rounded-xl flex items-center justify-center shrink-0">
+                      <img src={item.icon} alt="" className="w-7 h-7" />
                     </div>
                   </motion.div>
                 </div>

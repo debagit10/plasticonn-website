@@ -1,8 +1,12 @@
 import { Typography } from "@mui/material";
 import sustainabilty from "../assets/sustainability.png";
+import sustainabilty_white from "../assets/sustainability_white.png";
 import innovation from "../assets/innovation.png";
+import innovation_white from "../assets/innovation_white.png";
 import collaboration from "../assets/collaboration.png";
+import collaboration_white from "../assets/collaboration_white.png";
 import community from "../assets/community.png";
+import community_white from "../assets/community_white.png";
 import about from "../images/about.gif";
 import { motion } from "framer-motion";
 
@@ -34,21 +38,25 @@ const About = () => {
   const values = [
     {
       icon: sustainabilty,
+      icon2: sustainabilty_white,
       title: "Sustainability First",
       text: "We prioritize environmental impact in every decision, creating a circular economy for plastic waste.",
     },
     {
       icon: innovation,
+      icon2: innovation_white,
       title: "Innovation",
       text: "One recycled bottle can spark global innovation. Small action, healthier planet, safer society for us all.",
     },
     {
       icon: collaboration,
+      icon2: collaboration_white,
       title: "Collaboration",
       text: "Track every step of the recycling journey with full verification and impact measurement.",
     },
     {
       icon: community,
+      icon2: community_white,
       title: "Community Impact",
       text: "Recycling one bottle is small, but doing it together turns it into global progress. Collaboration makes the impact multiply.",
     },
@@ -125,28 +133,36 @@ const About = () => {
             <motion.div
               key={value.title}
               variants={cardVariants}
-              className="flex flex-col text-center gap-4 md:gap-6.5 
-          py-6 md:py-8 px-6 md:px-8.5 
-          rounded-[18px] 
-          bg-[#FAFAFA80] 
-          shadow-[0_0_12px_0_#0A332126]
-          transition-all duration-300
-          hover:shadow-[0_12px_40px_0_rgba(10,51,33,0.25)]
-          hover:-translate-y-1"
+              className="group flex flex-col text-center gap-4 md:gap-6.5 
+    py-6 md:py-8 px-6 md:px-8.5 
+    rounded-[18px] 
+    bg-[#FAFAFA80] 
+    shadow-[0_0_12px_0_#0A332126]
+    transition-all duration-300
+    hover:shadow-[0_12px_40px_0_rgba(10,51,33,0.25)]
+    hover:-translate-y-1"
             >
               <div className="flex justify-center">
-                <div className="flex justify-center bg-[#00C2811A] hover:text-white rounded-full w-20 h-20 md:w-25 md:h-25 items-center">
+                <div className="flex justify-center bg-[#00C2811A] group-hover:bg-[#00C281] rounded-full w-20 h-20 md:w-25 md:h-25 items-center relative transition-colors duration-300">
+                  {/* Default Icon */}
                   <img
                     src={value.icon}
                     alt={value.title}
-                    className="w-12 h-12 md:w-14 md:h-14"
+                    className="w-12 h-12 md:w-14 md:h-14 absolute transition-opacity duration-300 group-hover:opacity-0"
+                  />
+
+                  {/* Hover Icon */}
+                  <img
+                    src={value.icon2}
+                    alt={value.title}
+                    className="w-12 h-12 md:w-14 md:h-14 absolute opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                   />
                 </div>
               </div>
 
               <Typography
                 sx={{
-                  fontSize: { xs: 22, sm: 24, md: 32 },
+                  fontSize: { xs: 22, sm: 24, md: 24 },
                   fontWeight: 400,
                   color: "#052E1E",
                 }}
@@ -156,7 +172,7 @@ const About = () => {
 
               <Typography
                 sx={{
-                  fontSize: { xs: 16, sm: 18, md: 24 },
+                  fontSize: { xs: 16, sm: 18, md: 18 },
                   fontWeight: 300,
                   color: "#1A1A1A",
                 }}
@@ -183,15 +199,18 @@ const About = () => {
                 Our Vision
               </Typography>
             </div>
-            <Typography
-              sx={{
-                fontSize: { xs: 16, sm: 18, md: 20 },
-                fontWeight: 300,
-              }}
-            >
-              A cleaner, smarter, and more sustainable Nigeria where plastic is
-              valued, not wasted.
-            </Typography>
+            <div className="flex justify-center md:justify-start">
+              <Typography
+                sx={{
+                  fontSize: { xs: 16, sm: 18, md: 20 },
+                  fontWeight: 300,
+                  maxWidth: { xs: "100%", md: "720px" },
+                }}
+              >
+                A cleaner, smarter, and more sustainable Nigeria where plastic
+                is valued, not wasted.
+              </Typography>
+            </div>
           </div>
 
           {/* Mission */}
@@ -206,26 +225,25 @@ const About = () => {
                 Our Vision
               </Typography>
             </div>
-            <Typography
-              sx={{
-                fontSize: { xs: 16, sm: 18, md: 20 },
-                fontWeight: 300,
-              }}
-            >
-              We seek to bridge the gap between plastic collection efforts
-              <br className="hidden md:block" /> and the accessibility of
-              collection centers. By enhancing{" "}
-              <br className="hidden md:block" />
-              both visibility and accessibility, the initiative fosters a{" "}
-              <br className="hidden md:block" />
-              sustainable, community-driven approach to reducing{" "}
-              <br className="hidden md:block" /> improper plastic disposal. This
-              project not only contributes <br className="hidden md:block" /> to
-              environmental protection but also offers significant{" "}
-              <br className="hidden md:block" />
-              environmental, economic, and social benefits, ensuring a{" "}
-              <br className="hidden md:block" /> positive return on investment.
-            </Typography>
+            <div className="flex justify-center md:justify-start">
+              <Typography
+                sx={{
+                  fontSize: { xs: 16, sm: 18, md: 20 },
+                  fontWeight: 300,
+                  lineHeight: 1.7,
+                  maxWidth: { xs: "100%", md: "720px" },
+                }}
+              >
+                We seek to bridge the gap between plastic collection efforts and
+                the accessibility of collection centers. By enhancing both
+                visibility and accessibility, the initiative fosters a
+                sustainable, community-driven approach to reducing improper
+                plastic disposal. This project not only contributes to
+                environmental protection but also offers significant
+                environmental, economic, and social benefits, ensuring a
+                positive return on investment.
+              </Typography>
+            </div>
           </div>
         </div>
 
