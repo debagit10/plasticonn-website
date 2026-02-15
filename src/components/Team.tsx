@@ -1,40 +1,135 @@
 import { useState, useEffect } from "react";
-import { Typography } from "@mui/material";
+import { Tooltip, Typography } from "@mui/material";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
-import unilag from "../images/unilag.jpg";
-import unicef from "../images/unicef.png";
-import mappers from "../images/mappers.jpg";
-import goodwall from "../images/goodwall.png";
+import tobi from "../assets/team/Tobi.jpg";
+import sodiq from "../assets/team/sodiq.jpg";
+import elias from "../assets/team/Peter Elias.jpg";
+import toyin from "../assets/team/oluwatoyin.jpeg";
+import moyo from "../assets/team/Moyo.jpeg";
+import demilade from "../assets/team/demilade.jpg";
+import aliya from "../assets/team/Aliya.jpg";
 import carousel from "../assets/carousel.png";
+import { FaInstagram } from "react-icons/fa";
+// import { FaXTwitter } from "react-icons/fa6";
+import { FaLinkedinIn } from "react-icons/fa";
 
 import { useSwipeable } from "react-swipeable";
 
 const Team = () => {
   const team = [
     {
-      name: "Elias",
-      role: "Insert role or position here!",
-      image: unilag,
+      name: "Onafeso Imisioluwa Aliya",
+      role: "Team Lead & Project Manager",
+      image: aliya,
+      socials: [
+        {
+          name: "Instagram",
+          link: "https://www.instagram.com/imisioluwaaliya?igsh=MWpmaHZhbTZod2xyaA==",
+          icon: <FaInstagram />,
+        },
+        {
+          name: "LinkedIn",
+          link: "https://www.linkedin.com/in/imisioluwa-onafeso/",
+          icon: <FaLinkedinIn />,
+        },
+      ],
     },
     {
-      name: "Oluwademilade Onasanya",
-      role: "Insert role or position here!",
-      image: unicef,
+      name: "Odunlana Oluwatoyin",
+      role: "Project Mentor",
+      image: toyin,
+      socials: [
+        {
+          name: "Instagram",
+          link: "https://www.instagram.com/ab_ose_de?igsh=MW9yNW9sYnNsd3ZxNg==",
+          icon: <FaInstagram />,
+        },
+        {
+          name: "LinkedIn",
+          link: "https://www.linkedin.com/in/oluwatoyinodulana",
+          icon: <FaLinkedinIn />,
+        },
+      ],
     },
     {
-      name: "Imisioluwa Aliya",
-      role: "Insert role or position here!",
-      image: mappers,
+      name: "Azeez Moyosoreoluwa",
+      role: "Sustainability Research & Communications Lead",
+      image: moyo,
+      socials: [
+        {
+          name: "Instagram",
+          link: "https://www.instagram.com/mo_yoosore?igsh=djJkc2l3eDZ3Y2tn",
+          icon: <FaInstagram />,
+        },
+        {
+          name: "LinkedIn",
+          link: "https://www.linkedin.com/in/moyosoreoluwa-azeez-003bb3282/",
+          icon: <FaLinkedinIn />,
+        },
+      ],
     },
     {
-      name: "Oluwatoyin Odulana",
-      role: "Insert role or position here!",
-      image: goodwall,
+      name: "Onasanya Oluwademilade",
+      role: "GIS and Technical Lead",
+      image: demilade,
+      socials: [
+        {
+          name: "Instagram",
+          link: "https://www.instagram.com/_oluwademilade_e?igsh=em02bmgwdWN2MXQ3",
+          icon: <FaInstagram />,
+        },
+        {
+          name: "LinkedIn",
+          link: "https://www.linkedin.com/in/oluwademilade-onasanya-b67527206/",
+          icon: <FaLinkedinIn />,
+        },
+      ],
     },
     {
-      name: "Sodiq",
-      role: "Insert role or position here!",
-      image: goodwall,
+      name: "Fatimilehin Oluwatobiloba",
+      role: "Social media Manager",
+      image: tobi,
+      socials: [
+        {
+          name: "Instagram",
+          link: "https://www.instagram.com/i_am__tobi?igsh=MTY5MWY5b3o4b2FkbA==",
+          icon: <FaInstagram />,
+        },
+        {
+          name: "LinkedIn",
+          link: "https://www.linkedin.com/in/oluwatobiloba-fatimilehin-176035275?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+          icon: <FaLinkedinIn />,
+        },
+      ],
+    },
+    {
+      name: "Shobogun Sodiq",
+      role: "Data Analyst",
+      image: sodiq,
+      socials: [
+        {
+          name: "Instagram",
+          link: "https://www.instagram.com/shobzy_vibes?igsh=MTB5Y3R4YzNwZmIxNw==",
+          icon: <FaInstagram />,
+        },
+        {
+          name: "LinkedIn",
+          link: "https://www.linkedin.com/in/shobogun-sodiq-124316216?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+          icon: <FaLinkedinIn />,
+        },
+      ],
+    },
+    {
+      name: "Prof. Peter Elias",
+      role: "Project Advisor",
+      image: elias,
+      socials: [
+        {
+          name: "LinkedIn",
+          link: "https://www.linkedin.com/in/peter-elias-73831743/",
+          icon: <FaLinkedinIn />,
+        },
+      ],
     },
   ];
 
@@ -43,6 +138,8 @@ const Team = () => {
 
   const [currentIndex, setCurrentIndex] = useState(team.length);
   const [isTransitioning, setIsTransitioning] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
+
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -99,12 +196,14 @@ const Team = () => {
 
   // Autoscroll effect
   useEffect(() => {
+    if (isPaused) return;
+
     const interval = setInterval(() => {
       setCurrentIndex((prev) => prev + 1);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isPaused]);
 
   // Calculate the actual index for indicators
   const getIndicatorIndex = () => {
@@ -175,6 +274,8 @@ const Team = () => {
                   key={index}
                   className="shrink-0"
                   style={{ width: isMobile ? "100%" : "auto" }}
+                  onMouseEnter={() => setIsPaused(true)}
+                  onMouseLeave={() => setIsPaused(false)}
                 >
                   <div
                     className={`flex flex-col items-center text-center transition-all duration-500 rounded-[18px] pt-6 lg:pt-9.25 ${
@@ -224,6 +325,26 @@ const Team = () => {
                       >
                         {member.role}
                       </Typography>
+
+                      {isCenter(index) && (
+                        <div className="flex gap-4 mt-1 justify-center">
+                          {member.socials.map((item) => (
+                            <Tooltip key={item.name} title={item.name}>
+                              <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 border border-white/30 rounded-lg
+                     flex items-center justify-center
+                     hover:bg-white hover:text-[#053322]
+                     transition"
+                              >
+                                {item.icon}
+                              </a>
+                            </Tooltip>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
