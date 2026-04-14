@@ -27,6 +27,7 @@ const Footer = () => {
                 src={logo}
                 alt="Plasticonn Logo"
                 className="w-14 h-14 rounded-[46px]"
+                fetchPriority="high"
               />
               <span className="text-2xl font-semibold">Plasticonn</span>
             </div>

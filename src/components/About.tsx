@@ -156,6 +156,7 @@ const About = () => {
                     src={value.icon2}
                     alt={value.title}
                     className="w-12 h-12 md:w-14 md:h-14 absolute opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    loading="lazy"
                   />
                 </div>
               </div>
@@ -253,6 +254,7 @@ const About = () => {
             src={about}
             alt="About animation"
             className="w-full max-w-md lg:max-w-none lg:w-193.5 h-auto lg:h-108.75 rounded-[18px]"
+            loading="lazy"
           />
         </div>
       </div>

@@ -100,7 +100,7 @@ const Works = () => {
       <div className="relative pt-8 md:pt-16">
         {/* Background Circle - Hidden on mobile */}
         <div className="absolute inset-0 hidden md:flex items-center justify-center top-15 pointer-events-none z-50">
-          <img src={circle} alt="" />
+          <img src={circle} alt="" loading="lazy" />
         </div>
 
         {/* Steps Grid */}
@@ -141,6 +141,7 @@ const Works = () => {
                     src={step.icon}
                     alt={step.title}
                     className="w-9 h-9 md:w-11.5 md:h-11.5"
+                    loading="lazy"
                   />
                 </motion.div>
 

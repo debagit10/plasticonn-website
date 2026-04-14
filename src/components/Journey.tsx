@@ -106,7 +106,12 @@ const Journey = () => {
                   {/* Icon and Timeline */}
                   <div className="flex items-start gap-3">
                     <div className="w-12 h-12 bg-linear-to-br from-[#005C3D] to-[#00C281] rounded-xl flex items-center justify-center shrink-0">
-                      <img src={item.icon} alt="" className="w-6 h-6" />
+                      <img
+                        src={item.icon}
+                        alt=""
+                        className="w-6 h-6"
+                        loading="lazy"
+                      />
                     </div>
                     <Typography fontSize={14} fontWeight={400} color="#00C281">
                       {item.timeline}
@@ -151,6 +156,7 @@ const Journey = () => {
                     src={item.image}
                     alt={item.title}
                     className="h-70 w-220"
+                    loading="lazy"
                   />
                 </motion.div>
               </motion.div>
@@ -183,12 +189,13 @@ const Journey = () => {
                       src={item.image}
                       alt="Plastic waste"
                       className="rounded-[20px] h-130 w-200"
+                      loading="lazy"
                     />
                   </motion.div>
 
                   {/* Circle */}
                   <div className="absolute inset-0 flex items-center justify-center top-15 left-2 pointer-events-none z-50">
-                    <img src={circle} alt="" />
+                    <img src={circle} alt="" loading="lazy" />
                   </div>
 
                   {/* Content Card */}
@@ -248,7 +255,12 @@ const Journey = () => {
                     </div>
 
                     <div className="w-15 h-15 bg-linear-to-br from-[#005C3D] to-[#00C281] rounded-xl flex items-center justify-center shrink-0">
-                      <img src={item.icon} alt="" className="w-7 h-7" />
+                      <img
+                        src={item.icon}
+                        alt=""
+                        className="w-7 h-7"
+                        loading="lazy"
+                      />
                     </div>
                   </motion.div>
                 </div>

@@ -136,7 +136,12 @@ const Hero = () => {
           <div className="absolute inset-0 rounded-full bg-linear-to-r from-emerald-400 to-teal-400 p-1.5">
             <div className="w-full h-full rounded-full bg-[#141414] flex flex-col items-center justify-center gap-3 lg:gap-4 text-center px-4">
               <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-white flex items-center justify-center">
-                <img src={recycle} alt="" className="w-8 h-8 lg:w-10 lg:h-10" />
+                <img
+                  src={recycle}
+                  alt=""
+                  className="w-8 h-8 lg:w-10 lg:h-10"
+                  fetchPriority="high"
+                />
               </div>
 
               <Typography fontSize={{ xs: 18, lg: 22 }}>

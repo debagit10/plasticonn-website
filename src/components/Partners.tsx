@@ -76,7 +76,6 @@ const Partners = () => {
     }
   }, [currentIndex, cardsToShow, extendedPartners.length, partners.length]);
 
-  // ✅ Auto slide on ALL screen sizes (including mobile)
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => prev + 1);
@@ -87,7 +86,6 @@ const Partners = () => {
 
   const getIndicatorIndex = () => currentIndex % partners.length;
 
-  // ✅ Center logic (like Team)
   const isCenter = (index: number) => {
     if (screenSize === "mobile") return index === currentIndex;
     if (screenSize === "tablet") return index === currentIndex + 1;
@@ -147,6 +145,7 @@ const Partners = () => {
                       src={partner.image}
                       alt={partner.name}
                       className="mx-auto h-48 sm:h-60 lg:h-64 object-contain"
+                      loading="lazy"
                     />
 
                     <Typography fontSize={20} fontWeight={400} color="#00C281">
@@ -179,7 +178,12 @@ const Partners = () => {
           {partners.map((_, index) => (
             <button key={index} onClick={() => goToSlide(index)}>
               {getIndicatorIndex() === index ? (
-                <img src={carousel} alt="Active" className="w-7 h-7" />
+                <img
+                  src={carousel}
+                  alt="Active"
+                  className="w-7 h-7"
+                  loading="lazy"
+                />
               ) : (
                 <div className="w-3 h-3 rounded-full bg-gray-400" />
               )}

@@ -38,6 +38,7 @@ const Navbar = () => {
             width={40}
             height={40}
             className="rounded-full"
+            fetchPriority="high"
           />
           <Typography fontSize={26} fontWeight={400}>
             Plasticonn
@@ -108,6 +109,7 @@ const Navbar = () => {
                 width={36}
                 height={36}
                 className="rounded-full"
+                fetchPriority="high"
               />
               <Typography fontSize={20} fontWeight={400} color="#2F5F4B">
                 Plasticonn

@@ -128,6 +128,7 @@ const Impact = () => {
                   src={item.icon}
                   alt={item.title}
                   className="w-9 h-9 lg:w-11.5 lg:h-11.5"
+                  loading="lazy"
                 />
               </div>
               <Typography

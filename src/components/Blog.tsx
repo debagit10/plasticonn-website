@@ -190,6 +190,7 @@ const Blogs = () => {
                         src={blogItem.image}
                         alt={blogItem.title}
                         className="w-full h-full object-cover"
+                        loading="lazy"
                       />
 
                       {/* Date Badge */}
@@ -268,6 +269,7 @@ const Blogs = () => {
                   src={carousel}
                   alt="Active indicator"
                   className="w-6 h-6 lg:w-8 lg:h-8"
+                  loading="lazy"
                 />
               ) : (
                 <div className="w-3 h-3 rounded-full bg-gray-400" />
