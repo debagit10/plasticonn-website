@@ -2,31 +2,43 @@ import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 import { useSwipeable } from "react-swipeable";
+import api from "../utils/axiosInstance";
 
-import unilag from "../images/unilag.jpg";
-import unicef from "../images/unicef.png";
-import mappers from "../images/mappers.jpg";
-import goodwall from "../images/goodwall.png";
 import carousel from "../assets/carousel.png";
 
+interface Partners {
+  logo: { url: string; public_id: string };
+  name: string;
+}
+
+// const ourPartners = [
+//   { name: "UNILAG", image: unilag },
+//   { name: "UNICEF", image: unicef },
+//   { name: "Youth Mappers", image: mappers },
+//   { name: "GoodWall", image: goodwall },
+// ];
+
 const Partners = () => {
-  const partners = [
-    { name: "UNILAG", image: unilag },
-    { name: "UNICEF", image: unicef },
-    { name: "Youth Mappers", image: mappers },
-    { name: "GoodWall", image: goodwall },
-  ];
+  const [ourPartners, setOurPartners] = useState<Partners[]>([]);
+  const extendedPartners = [...ourPartners, ...ourPartners, ...ourPartners];
 
-  const extendedPartners = [...partners, ...partners, ...partners];
-
-  const [currentIndex, setCurrentIndex] = useState(partners.length);
+  const [currentIndex, setCurrentIndex] = useState(ourPartners.length);
   const [isTransitioning, setIsTransitioning] = useState(true);
   const [screenSize, setScreenSize] = useState<"mobile" | "tablet" | "desktop">(
     "desktop",
   );
 
+  const getPartners = async () => {
+    const response = await api.get("/api/partner");
+
+    console.log(response.data.data);
+    setOurPartners(response.data.data);
+  };
+
   // Detect screen size
   useEffect(() => {
+    getPartners();
+
     const handleResize = () => {
       if (window.innerWidth < 640) {
         setScreenSize("mobile");
@@ -49,7 +61,7 @@ const Partners = () => {
   const handleNext = () => setCurrentIndex((prev) => prev + 1);
 
   const goToSlide = (index: number) => {
-    setCurrentIndex(partners.length + index);
+    setCurrentIndex(ourPartners.length + index);
   };
 
   const swipeHandlers = useSwipeable({
@@ -64,17 +76,17 @@ const Partners = () => {
     if (currentIndex === 0) {
       setTimeout(() => {
         setIsTransitioning(false);
-        setCurrentIndex(partners.length);
+        setCurrentIndex(ourPartners.length);
       }, 500);
     } else if (currentIndex === extendedPartners.length - cardsToShow) {
       setTimeout(() => {
         setIsTransitioning(false);
-        setCurrentIndex(partners.length);
+        setCurrentIndex(ourPartners.length);
       }, 500);
     } else {
       setIsTransitioning(true);
     }
-  }, [currentIndex, cardsToShow, extendedPartners.length, partners.length]);
+  }, [currentIndex, cardsToShow, extendedPartners.length, ourPartners.length]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -84,7 +96,7 @@ const Partners = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const getIndicatorIndex = () => currentIndex % partners.length;
+  const getIndicatorIndex = () => currentIndex % ourPartners.length;
 
   const isCenter = (index: number) => {
     if (screenSize === "mobile") return index === currentIndex;
@@ -142,7 +154,7 @@ const Partners = () => {
                     }`}
                   >
                     <img
-                      src={partner.image}
+                      src={partner.logo.url}
                       alt={partner.name}
                       className="mx-auto h-48 sm:h-60 lg:h-64 object-contain"
                       loading="lazy"
@@ -175,7 +187,7 @@ const Partners = () => {
 
         {/* Indicators */}
         <div className="flex justify-center gap-2 mt-6 items-center">
-          {partners.map((_, index) => (
+          {ourPartners.map((_, index) => (
             <button key={index} onClick={() => goToSlide(index)}>
               {getIndicatorIndex() === index ? (
                 <img
