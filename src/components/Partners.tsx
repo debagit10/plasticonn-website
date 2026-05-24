@@ -12,7 +12,8 @@ const Partners = () => {
 
   const getPartners = async () => {
     const response = await api.get("/api/partner");
-    setOurPartners(Array.isArray(response) ? response : []);
+
+    setOurPartners(Array.isArray(response.data.data) ? response.data.data : []);
   };
 
   useEffect(() => {
