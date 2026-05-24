@@ -12,7 +12,7 @@ const Partners = () => {
 
   const getPartners = async () => {
     const response = await api.get("/api/partner");
-    setOurPartners(response.data.data);
+    setOurPartners(Array.isArray(response) ? response : []);
   };
 
   useEffect(() => {
@@ -20,7 +20,9 @@ const Partners = () => {
   }, []);
 
   // duplicate for seamless loop
-  const duplicatedPartners = [...ourPartners, ...ourPartners];
+  const duplicatedPartners = Array.isArray(ourPartners)
+    ? [...ourPartners, ...ourPartners]
+    : [];
 
   return (
     <div className="bg-[#F1F1F1] py-16 overflow-hidden">
