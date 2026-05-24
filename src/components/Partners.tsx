@@ -7,6 +7,8 @@ interface Partners {
   name: string;
 }
 
+console.log(api.getUri());
+
 const Partners = () => {
   const [ourPartners, setOurPartners] = useState<Partners[]>([]);
 
