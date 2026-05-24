@@ -7,8 +7,6 @@ interface Partners {
   name: string;
 }
 
-console.log(api.getUri());
-
 const Partners = () => {
   const [ourPartners, setOurPartners] = useState<Partners[]>([]);
 
@@ -21,9 +19,6 @@ const Partners = () => {
   useEffect(() => {
     getPartners();
   }, []);
-
-  console.log(Array.isArray(ourPartners));
-  console.log(ourPartners);
 
   // duplicate for seamless loop
   const duplicatedPartners = Array.isArray(ourPartners)
