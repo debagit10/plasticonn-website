@@ -20,6 +20,9 @@ const Partners = () => {
     getPartners();
   }, []);
 
+  console.log(Array.isArray(ourPartners));
+  console.log(ourPartners);
+
   // duplicate for seamless loop
   const duplicatedPartners = Array.isArray(ourPartners)
     ? [...ourPartners, ...ourPartners]
