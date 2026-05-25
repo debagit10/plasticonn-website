@@ -1,8 +1,17 @@
 import { Button, Divider, Typography } from "@mui/material";
 import recycle from "../images/recycle.jpg";
 import { IoMdArrowForward } from "react-icons/io";
+import { formatValue } from "../utils/formatValue";
 
-const Hero = () => {
+export interface HeroStats {
+  activeCollectors: number;
+  totalCollectionCenters: number;
+  totalRecyclingCenters: number;
+  percentRecycled: number;
+  avgPlasticsPerMonth: number;
+}
+
+const Hero = ({ data }: { data: HeroStats }) => {
   return (
     <div className="flex flex-col lg:flex-row px-[6%] pt-[4%] pb-[15%] md:pb-[6%] gap-8 lg:gap-16 text-white">
       {/* LEFT CONTENT */}
@@ -91,9 +100,9 @@ const Hero = () => {
 
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-center sm:text-left">
           {[
-            { value: "5,000+", label: "Active Collectors" },
-            { value: "200+", label: "Collection Centers" },
-            { value: "50+", label: "Recycling Centers" },
+            { value: data.activeCollectors, label: "Active Collectors" },
+            { value: data.totalCollectionCenters, label: "Collection Centers" },
+            { value: data.totalRecyclingCenters, label: "Recycling Centers" },
           ].map((item, i, arr) => (
             <div
               key={i}
@@ -105,7 +114,7 @@ const Hero = () => {
                   fontWeight={500}
                   color="#00C281"
                 >
-                  {item.value}
+                  {formatValue(item.value)}
                 </Typography>
                 <Typography
                   fontSize={{ xs: 14, lg: 16 }}
@@ -154,7 +163,7 @@ const Hero = () => {
               <div className="flex gap-4 lg:gap-6 mt-2 lg:mt-4">
                 <div>
                   <Typography color="#00C281" fontSize={{ xs: 18, lg: 20 }}>
-                    25%
+                    {data.percentRecycled}%
                   </Typography>
                   <Typography fontSize={{ xs: 12, lg: 14 }}>
                     Recycled
@@ -169,7 +178,7 @@ const Hero = () => {
 
                 <div>
                   <Typography color="#00C281" fontSize={{ xs: 18, lg: 20 }}>
-                    100k+
+                    {data.avgPlasticsPerMonth}+
                   </Typography>
                   <Typography fontSize={{ xs: 12, lg: 14 }}>
                     kg/month

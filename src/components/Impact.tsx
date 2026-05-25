@@ -7,27 +7,40 @@ import { PieChart } from "@mui/x-charts/PieChart";
 
 import { motion } from "framer-motion";
 
+export interface ImpactStats {
+  totalPlasticsCollected: number;
+  successfullyRecycled: number;
+  activeParticipants: number;
+  co2EmissionsSaved: number;
+  monthlyCollectionTrend: MonthlyCollectionTrend[];
+}
+
+export interface MonthlyCollectionTrend {
+  month: string;
+  amount: number;
+}
+
 // Variants for the slide-in animation
 const cardVariants = {
   hidden: { opacity: 0, x: -50 }, // start slightly left and invisible
   visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }, // slide in
 };
 
-const Impact = () => {
-  const stats = [
-    { month: "Jan", value: 50, stat: "100 kg" },
-    { month: "Feb", value: 70, stat: "100 kg" },
-    { month: "Mar", value: 50, stat: "100 kg" },
-    { month: "Apr", value: 70, stat: "100 kg" },
-    { month: "May", value: 50, stat: "100 kg" },
-    { month: "Jun", value: 70, stat: "100 kg" },
-    { month: "Jul", value: 50, stat: "100 kg" },
-    { month: "Aug", value: 70, stat: "100 kg" },
-    { month: "Sep", value: 50, stat: "100 kg" },
-    { month: "Oct", value: 70, stat: "100 kg" },
-    { month: "Nov", value: 50, stat: "100 kg" },
-    { month: "Dec", value: 70, stat: "100 kg" },
-  ];
+const Impact = ({ impactstats }: { impactstats: ImpactStats }) => {
+  // const stats = [
+  //   { month: "Jan", value: 50, stat: "100 kg" },
+  //   { month: "Feb", value: 70, stat: "100 kg" },
+  //   { month: "Mar", value: 50, stat: "100 kg" },
+  //   { month: "Apr", value: 70, stat: "100 kg" },
+  //   { month: "May", value: 50, stat: "100 kg" },
+  //   { month: "Jun", value: 70, stat: "100 kg" },
+  //   { month: "Jul", value: 50, stat: "100 kg" },
+  //   { month: "Aug", value: 70, stat: "100 kg" },
+  //   { month: "Sep", value: 50, stat: "100 kg" },
+  //   { month: "Oct", value: 70, stat: "100 kg" },
+  //   { month: "Nov", value: 50, stat: "100 kg" },
+  //   { month: "Dec", value: 70, stat: "100 kg" },
+  // ];
 
   const data = [
     { label: "Group A", value: 400, color: "#0088FE" },
@@ -47,25 +60,25 @@ const Impact = () => {
     {
       icon: bottle,
       title: "Total Plastics Collected",
-      stat: "2.5M",
+      stat: impactstats.totalPlasticsCollected,
       unit: "kg",
     },
     {
       icon: recycle,
       title: "Successfully Recycled",
-      stat: "2.3M",
+      stat: impactstats.successfullyRecycled,
       unit: "kg",
     },
     {
       icon: participants,
       title: "Active Participants",
-      stat: "15.2K",
+      stat: impactstats.activeParticipants,
       unit: "users",
     },
     {
       icon: co2,
       title: "CO₂ Emissions Saved",
-      stat: "850",
+      stat: impactstats.co2EmissionsSaved,
       unit: "tons",
     },
   ];
@@ -165,7 +178,7 @@ const Impact = () => {
             Monthly Collection Trends
           </Typography>
           <div className="flex flex-col gap-3 lg:gap-[12.4px]">
-            {stats.map((stat, index) => (
+            {impactstats.monthlyCollectionTrend.map((stat, index) => (
               <div key={index} className="flex gap-2 lg:gap-3 items-center">
                 <Typography
                   fontSize={{ xs: 12, lg: 14 }}
@@ -177,7 +190,7 @@ const Impact = () => {
                 </Typography>
                 <LinearProgress
                   variant="determinate"
-                  value={stat.value}
+                  value={Math.min(stat.amount, 100)}
                   sx={{
                     flex: 1,
                     maxWidth: { lg: "623.35px" },
@@ -199,7 +212,7 @@ const Impact = () => {
                     textAlign: "right",
                   }}
                 >
-                  {stat.stat}
+                  {stat.amount}kg
                 </Typography>
               </div>
             ))}
@@ -287,7 +300,7 @@ const Impact = () => {
               fontWeight={500}
               color="#FAFAFA"
             >
-              2.5M+
+              {impactstats.successfullyRecycled}
             </Typography>
             <Typography
               fontSize={{ xs: 18, lg: 24 }}
@@ -321,7 +334,7 @@ const Impact = () => {
               fontWeight={500}
               color="#FAFAFA"
             >
-              15k+
+              {impactstats.activeParticipants}+
             </Typography>
             <Typography
               fontSize={{ xs: 18, lg: 24 }}

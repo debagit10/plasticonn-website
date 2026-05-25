@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import About from "../components/About";
 import Blogs from "../components/Blog";
@@ -10,9 +10,56 @@ import Navbar from "../components/Navbar";
 import Partners from "../components/Partners";
 import Team from "../components/Team";
 import Works from "../components/Works";
+import api from "../utils/axiosInstance";
+
+export interface DashboardStats {
+  hero: HeroStats;
+  impact: ImpactStats;
+  solution: SolutionStats;
+  timestamp: string;
+}
+
+export interface HeroStats {
+  activeCollectors: number;
+  totalCollectionCenters: number;
+  totalRecyclingCenters: number;
+  percentRecycled: number;
+  avgPlasticsPerMonth: number;
+}
+
+export interface ImpactStats {
+  totalPlasticsCollected: number;
+  successfullyRecycled: number;
+  activeParticipants: number;
+  co2EmissionsSaved: number;
+  monthlyCollectionTrend: MonthlyCollectionTrend[];
+}
+
+export interface MonthlyCollectionTrend {
+  month: string;
+  amount: number;
+}
+
+export interface SolutionStats {
+  plasticsRecycled: number;
+  totalActiveUsers: number;
+}
 
 const LandingPage = () => {
   const location = useLocation();
+
+  const [dashboard, setDashboard] = useState<DashboardStats>();
+
+  const getPartners = async () => {
+    const response = await api.get("/api/website");
+
+    setDashboard(response.data.data);
+    console.log(response.data.data);
+  };
+
+  useEffect(() => {
+    getPartners();
+  }, []);
 
   useEffect(() => {
     if (location.state?.scrollTo) {
@@ -29,37 +76,41 @@ const LandingPage = () => {
         <Navbar />
       </div>
 
-      <div className="pt-20">
-        <Hero />
-      </div>
+      {dashboard && (
+        <>
+          <div className="pt-20">
+            <Hero data={dashboard.hero} />
+          </div>
 
-      <div id="about">
-        <About />
-      </div>
+          <div id="about">
+            <About />
+          </div>
 
-      <div id="works">
-        <Works />
-      </div>
+          <div id="works">
+            <Works />
+          </div>
 
-      <div id="impact">
-        <Impact />
-      </div>
+          <div id="impact">
+            <Impact impactstats={dashboard.impact} />
+          </div>
 
-      <div id="team">
-        <Team />
-      </div>
+          <div id="team">
+            <Team />
+          </div>
 
-      <div id="journey">
-        <Journey />
-      </div>
+          <div id="journey">
+            <Journey />
+          </div>
 
-      <div id="blogs">
-        <Blogs />
-      </div>
+          <div id="blogs">
+            <Blogs />
+          </div>
 
-      <div id="partners">
-        <Partners />
-      </div>
+          <div id="partners">
+            <Partners />
+          </div>
+        </>
+      )}
 
       <Footer />
     </div>
