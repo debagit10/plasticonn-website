@@ -14,6 +14,13 @@ export interface ImpactStats {
   activeParticipants: number;
   co2EmissionsSaved: number;
   monthlyCollectionTrend: MonthlyCollectionTrend[];
+  plasticTypesDistribution: PlasticTypesDistribution[];
+}
+
+export interface PlasticTypesDistribution {
+  label: string;
+  value: number;
+  color: string;
 }
 
 export interface MonthlyCollectionTrend {
@@ -42,13 +49,6 @@ const Impact = ({ impactstats }: { impactstats: ImpactStats }) => {
   //   { month: "Nov", value: 50, stat: "100 kg" },
   //   { month: "Dec", value: 70, stat: "100 kg" },
   // ];
-
-  const data = [
-    { label: "Group A", value: 400, color: "#0088FE" },
-    { label: "Group B", value: 300, color: "#00C49F" },
-    { label: "Group C", value: 300, color: "#FFBB28" },
-    { label: "Group D", value: 200, color: "#FF8042" },
-  ];
 
   const settings = {
     margin: { right: 5 },
@@ -237,7 +237,7 @@ const Impact = ({ impactstats }: { impactstats: ImpactStats }) => {
                   {
                     innerRadius: 50,
                     outerRadius: 100,
-                    data,
+                    data: impactstats.plasticTypesDistribution,
                   },
                 ]}
                 {...settings}
@@ -250,14 +250,14 @@ const Impact = ({ impactstats }: { impactstats: ImpactStats }) => {
 
             <div className="flex justify-center w-full">
               <div className="flex flex-col gap-2 lg:gap-3">
-                {data.map((item, index) => (
+                {impactstats.plasticTypesDistribution.map((item, index) => (
                   <div
                     key={index}
                     className="flex items-center justify-center gap-2 lg:gap-3"
                   >
                     <div
                       className="w-3 h-3 rounded-full shrink-0"
-                      style={{ backgroundColor: item.color }}
+                      style={{ backgroundColor: String(item.color) }}
                     />
                     <Typography
                       fontSize={{ xs: 13, lg: 14 }}

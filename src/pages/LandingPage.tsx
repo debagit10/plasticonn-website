@@ -33,11 +33,18 @@ export interface ImpactStats {
   activeParticipants: number;
   co2EmissionsSaved: number;
   monthlyCollectionTrend: MonthlyCollectionTrend[];
+  plasticTypesDistribution: PlasticTypesDistribution[];
 }
 
 export interface MonthlyCollectionTrend {
   month: string;
   amount: number;
+}
+
+export interface PlasticTypesDistribution {
+  label: string;
+  value: number;
+  color: string;
 }
 
 export interface SolutionStats {
