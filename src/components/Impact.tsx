@@ -6,6 +6,7 @@ import recycle from "../assets/recycle.png";
 import { PieChart } from "@mui/x-charts/PieChart";
 
 import { motion } from "framer-motion";
+import { formatValue } from "../utils/formatValue";
 
 export interface ImpactStats {
   totalPlasticsCollected: number;
@@ -212,7 +213,7 @@ const Impact = ({ impactstats }: { impactstats: ImpactStats }) => {
                     textAlign: "right",
                   }}
                 >
-                  {stat.amount}kg
+                  {stat.amount < 100 ? stat.amount : formatValue(stat.amount)}
                 </Typography>
               </div>
             ))}
