@@ -2,12 +2,15 @@ import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 import { FiArrowUpRight } from "react-icons/fi";
+import { FaRegEye, FaClock } from "react-icons/fa";
 import { useSwipeable } from "react-swipeable";
+import { useNavigate } from "react-router-dom";
 
 import carousel from "../assets/carousel.png";
-import blog from "../images/blog.jpg";
+import api from "../utils/axiosInstance";
 
 const shortenDate = (dateString: string) => {
+  if (!dateString) return "";
   const monthMap: { [key: string]: string } = {
     January: "Jan",
     February: "Feb",
@@ -22,83 +25,75 @@ const shortenDate = (dateString: string) => {
     November: "Nov",
     December: "Dec",
   };
-
   return dateString.replace(
     /January|February|March|April|May|June|July|August|September|October|November|December/g,
     (match) => monthMap[match],
   );
 };
 
+type BlogItem = {
+  id: string;
+  title: string;
+  subtitle?: string;
+  image?: string;
+  publishedAt?: string;
+  readTime?: string;
+  views?: string;
+  tags?: { label: string; color: string; bg: string }[];
+  author?: { name: string; role: string; initials: string };
+  content?: { type: string; text: string }[];
+};
+
 const Blogs = () => {
-  const blogs = [
-    {
-      id: 1,
-      date: "January 16, 2026",
-      title: "Plasticonn Youths Mobilization Team",
-      description:
-        "Pleased to see how committed our mobilized youths trying to make the community and environment a safe place.",
-      image: blog,
-      link: "/blog/1",
-    },
-    {
-      id: 2,
-      date: "February 10, 2026",
-      title: "Community Clean-up Initiative",
-      description:
-        "Join us as we take action to create cleaner, greener neighborhoods for everyone.",
-      image: blog,
-      link: "/blog/2",
-    },
-    {
-      id: 3,
-      date: "March 5, 2026",
-      title: "Environmental Awareness Campaign",
-      description:
-        "Educating the next generation about sustainable practices and environmental protection.",
-      image: blog,
-      link: "/blog/3",
-    },
-    {
-      id: 4,
-      date: "April 12, 2026",
-      title: "Youth Leadership Training",
-      description:
-        "Empowering young leaders to drive change in their communities and beyond.",
-      image: blog,
-      link: "/blog/4",
-    },
-  ];
+  const navigate = useNavigate();
+  const [blogs, setData] = useState<BlogItem[]>([]);
+
+  const getBlogs = async () => {
+    const response = await api.get("/api/blog");
+    const all: BlogItem[] = Array.isArray(response.data.data)
+      ? response.data.data
+      : [];
+    // only show published blogs on the public page
+    setData(all.filter((b: any) => b.status === "published"));
+  };
+
+  useEffect(() => {
+    getBlogs();
+  }, []);
+
+  // derive a short description from the first paragraph block
+  const getExcerpt = (blog: BlogItem) => {
+    if (!blog.content?.length) return blog.subtitle ?? "";
+    const first = blog.content.find((b) => b.type === "paragraph");
+    if (!first) return blog.subtitle ?? "";
+    return first.text.length > 100
+      ? first.text.slice(0, 100) + "…"
+      : first.text;
+  };
 
   const extendedBlogs = [...blogs, ...blogs, ...blogs];
 
-  const [currentIndex, setCurrentIndex] = useState(blogs.length);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Detect mobile (same pattern as Team)
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
-    };
-
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // reset index when blogs load
+  useEffect(() => {
+    if (blogs.length > 0) setCurrentIndex(blogs.length);
+  }, [blogs.length]);
+
   const cardsToShow = isMobile ? 1 : 3;
 
-  const handlePrev = () => {
-    setCurrentIndex((prev) => prev - 1);
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => prev + 1);
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentIndex(blogs.length + index);
-  };
+  const handlePrev = () => setCurrentIndex((prev) => prev - 1);
+  const handleNext = () => setCurrentIndex((prev) => prev + 1);
+  const goToSlide = (index: number) => setCurrentIndex(blogs.length + index);
 
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => setCurrentIndex((prev) => prev + 1),
@@ -107,8 +102,8 @@ const Blogs = () => {
     trackMouse: true,
   });
 
-  // Infinite loop logic
   useEffect(() => {
+    if (blogs.length === 0) return;
     if (currentIndex === 0) {
       setTimeout(() => {
         setIsTransitioning(false);
@@ -124,22 +119,22 @@ const Blogs = () => {
     }
   }, [currentIndex, blogs.length, extendedBlogs.length, cardsToShow]);
 
-  // Autoplay (works on mobile too)
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => prev + 1);
-    }, 4000);
-
+    if (blogs.length === 0) return;
+    const interval = setInterval(
+      () => setCurrentIndex((prev) => prev + 1),
+      4000,
+    );
     return () => clearInterval(interval);
-  }, []);
+  }, [blogs.length]);
 
-  const getIndicatorIndex = () => {
-    return currentIndex % blogs.length;
-  };
+  const getIndicatorIndex = () => currentIndex % (blogs.length || 1);
+
+  if (blogs.length === 0) return null;
 
   return (
     <div className="bg-white px-[6%] lg:px-[8%] py-[8%] lg:py-[4.25%] flex flex-col gap-8 lg:gap-11.5">
-      {/* Title */}
+      {/* Title badge */}
       <div className="flex justify-center">
         <div className="rounded-4xl py-2 lg:py-2.5 px-4 lg:px-5 border border-[#00C281] bg-[#00C2811A] text-[#00C281] text-center">
           <Typography sx={{ fontSize: { xs: 14, lg: 16 } }}>
@@ -165,11 +160,7 @@ const Blogs = () => {
         <div className="relative">
           <div className="overflow-hidden py-4 lg:py-8" {...swipeHandlers}>
             <div
-              className={`flex items-stretch ${
-                isTransitioning
-                  ? "transition-transform duration-500 ease-in-out"
-                  : ""
-              }`}
+              className={`flex items-stretch ${isTransitioning ? "transition-transform duration-500 ease-in-out" : ""}`}
               style={{
                 transform: isMobile
                   ? `translateX(-${currentIndex * 100}%)`
@@ -183,59 +174,136 @@ const Blogs = () => {
                   className="shrink-0 px-2 lg:px-4"
                   style={{ width: isMobile ? "100%" : "33.333%" }}
                 >
-                  <div className="bg-[#F8F8F8] rounded-[20px] overflow-hidden duration-300 hover:scale-105">
+                  <div
+                    className="bg-[#F8F8F8] rounded-[20px] overflow-hidden duration-300 hover:scale-105 cursor-pointer flex flex-col h-full"
+                    onClick={() => navigate(`/blog/${blogItem.id}`)}
+                  >
                     {/* Image */}
-                    <div className="relative h-48 sm:h-56 md:h-64 lg:h-70 overflow-hidden">
-                      <img
-                        src={blogItem.image}
-                        alt={blogItem.title}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                      />
+                    <div className="relative h-48 sm:h-56 md:h-64 lg:h-60 overflow-hidden flex-shrink-0">
+                      {blogItem.image ? (
+                        <img
+                          src={blogItem.image}
+                          alt={blogItem.title}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-[#E1F5EE] flex items-center justify-center">
+                          <span className="text-3xl font-bold text-[#1D9E75] opacity-30">
+                            {blogItem.author?.initials ?? "?"}
+                          </span>
+                        </div>
+                      )}
 
-                      {/* Date Badge */}
-                      <div className="absolute top-3 lg:top-4 -left-1 bg-white rounded-lg p-2 lg:p-2.5 border-2 border-[#FAFAFA]">
-                        <Typography
-                          fontSize={{ xs: 14, lg: 18 }}
-                          fontWeight={300}
-                          color="#1A1A1A"
-                          style={{
-                            writingMode: "vertical-lr",
-                            textOrientation: "mixed",
-                          }}
-                        >
-                          {shortenDate(blogItem.date)}
-                        </Typography>
-                      </div>
+                      {/* Date badge */}
+                      {blogItem.publishedAt && (
+                        <div className="absolute top-3 lg:top-4 -left-1 bg-white rounded-lg p-2 lg:p-2.5 border-2 border-[#FAFAFA]">
+                          <Typography
+                            fontSize={{ xs: 12, lg: 14 }}
+                            fontWeight={300}
+                            color="#1A1A1A"
+                            style={{
+                              writingMode: "vertical-lr",
+                              textOrientation: "mixed",
+                            }}
+                          >
+                            {shortenDate(blogItem.publishedAt)}
+                          </Typography>
+                        </div>
+                      )}
+
+                      {/* Tags */}
+                      {blogItem.tags && blogItem.tags.length > 0 && (
+                        <div className="absolute bottom-3 left-3 flex gap-1.5 flex-wrap">
+                          {blogItem.tags.slice(0, 2).map((tag) => (
+                            <span
+                              key={tag.label}
+                              className="text-[11px] px-2.5 py-0.5 rounded-full font-medium"
+                              style={{
+                                color: tag.color,
+                                background: tag.bg,
+                                border: `1px solid ${tag.color}44`,
+                              }}
+                            >
+                              {tag.label}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
 
                     {/* Content */}
-                    <div className="p-4 lg:p-6 flex flex-col gap-2 lg:gap-3 bg-[#EFEFEF]">
+                    <div className="p-4 lg:p-5 flex flex-col gap-2.5 bg-[#EFEFEF] flex-1">
+                      {/* Title */}
                       <Typography
-                        fontSize={{ xs: 16, sm: 18, lg: 20 }}
-                        fontWeight={400}
+                        fontSize={{ xs: 16, sm: 17, lg: 18 }}
+                        fontWeight={500}
                         color="#1A1A1A"
-                        className="line-clamp-2"
+                        className="line-clamp-2 leading-snug"
                       >
                         {blogItem.title}
                       </Typography>
 
+                      {/* Excerpt */}
                       <Typography
-                        fontSize={{ xs: 14, sm: 16, lg: 18 }}
+                        fontSize={{ xs: 13, sm: 14 }}
                         fontWeight={300}
                         color="#666"
-                        className="line-clamp-3"
+                        className="line-clamp-2"
                       >
-                        {blogItem.description}
+                        {getExcerpt(blogItem)}
                       </Typography>
 
-                      <div className="flex justify-end mt-2">
-                        <a
-                          href={blogItem.link}
-                          className="bg-[#00C281] hover:bg-[#00A86B] text-white rounded-xl p-3 transition-colors duration-300"
+                      {/* Divider */}
+                      <div className="h-px bg-[#D9D9D9] my-0.5" />
+
+                      {/* Author + stats row */}
+                      <div className="flex items-center justify-between gap-2">
+                        {/* Author */}
+                        <div className="flex items-center gap-2 min-w-0">
+                          <div className="w-7 h-7 rounded-full bg-[#1D9E75]/15 border border-[#1D9E75]/25 flex items-center justify-center flex-shrink-0">
+                            <span className="text-[10px] font-semibold text-[#0F6E56]">
+                              {blogItem.author?.initials ?? "?"}
+                            </span>
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-[12px] font-medium text-[#1A1A1A] truncate leading-tight">
+                              {blogItem.author?.name ?? "Unknown"}
+                            </p>
+                            <p className="text-[11px] text-[#9CA3AF] truncate leading-tight">
+                              {blogItem.author?.role ?? ""}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Stats */}
+                        <div className="flex items-center gap-2.5 flex-shrink-0">
+                          {blogItem.readTime && (
+                            <span className="flex items-center gap-1 text-[11px] text-[#9CA3AF]">
+                              <FaClock size={10} />
+                              {blogItem.readTime}
+                            </span>
+                          )}
+                          {blogItem.views && (
+                            <span className="flex items-center gap-1 text-[11px] text-[#9CA3AF]">
+                              <FaRegEye size={11} />
+                              {blogItem.views}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Read more */}
+                      <div className="flex justify-end mt-1">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/blog/${blogItem.id}`);
+                          }}
+                          className="bg-[#00C281] hover:bg-[#00A86B] text-white rounded-xl p-2.5 transition-colors duration-300"
                         >
-                          <FiArrowUpRight className="w-5 h-5" />
-                        </a>
+                          <FiArrowUpRight className="w-4 h-4" />
+                        </button>
                       </div>
                     </div>
                   </div>
