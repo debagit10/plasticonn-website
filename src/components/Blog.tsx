@@ -179,7 +179,7 @@ const Blogs = () => {
                     onClick={() => navigate(`/blog/${blogItem.id}`)}
                   >
                     {/* Image */}
-                    <div className="relative h-48 sm:h-56 md:h-64 lg:h-60 overflow-hidden flex-shrink-0">
+                    <div className="relative h-48 sm:h-56 md:h-64 lg:h-60 overflow-hidden shrink-0">
                       {blogItem.image ? (
                         <img
                           src={blogItem.image}
@@ -261,7 +261,7 @@ const Blogs = () => {
                       <div className="flex items-center justify-between gap-2">
                         {/* Author */}
                         <div className="flex items-center gap-2 min-w-0">
-                          <div className="w-7 h-7 rounded-full bg-[#1D9E75]/15 border border-[#1D9E75]/25 flex items-center justify-center flex-shrink-0">
+                          <div className="w-7 h-7 rounded-full bg-[#1D9E75]/15 border border-[#1D9E75]/25 flex items-center justify-center shrink-0">
                             <span className="text-[10px] font-semibold text-[#0F6E56]">
                               {blogItem.author?.initials ?? "?"}
                             </span>
@@ -277,7 +277,7 @@ const Blogs = () => {
                         </div>
 
                         {/* Stats */}
-                        <div className="flex items-center gap-2.5 flex-shrink-0">
+                        <div className="flex items-center gap-2.5 shrink-0">
                           {blogItem.readTime && (
                             <span className="flex items-center gap-1 text-[11px] text-[#9CA3AF]">
                               <FaClock size={10} />

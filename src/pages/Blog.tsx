@@ -138,7 +138,7 @@ const Blog = () => {
 
           {/* Hero image */}
           <div className="my-8">
-            <div className="rounded-2xl overflow-hidden bg-stone-100 aspect-[16/9]">
+            <div className="rounded-2xl overflow-hidden bg-stone-100 aspect-video">
               <img
                 src={blog.image}
                 alt="Hero"
@@ -269,7 +269,7 @@ const Blog = () => {
               Written by
             </p>
             <div className="flex gap-4 items-start">
-              <div className="w-12 h-12 rounded-full bg-[#1D9E75]/10 border border-[#1D9E75]/20 flex items-center justify-center text-sm font-bold text-[#0F6E56] font-['DM_Sans',sans-serif] flex-shrink-0">
+              <div className="w-12 h-12 rounded-full bg-[#1D9E75]/10 border border-[#1D9E75]/20 flex items-center justify-center text-sm font-bold text-[#0F6E56] font-['DM_Sans',sans-serif] shrink-0">
                 {blog.author.initials}
               </div>
               <div className="flex-1 min-w-0">
