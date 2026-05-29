@@ -30,61 +30,187 @@ type Tag = {
   bg: string;
 };
 
+// ── skeleton primitives ────────────────────────────────────────────────────
+
+const Sk = ({
+  className = "",
+  style = {},
+}: {
+  className?: string;
+  style?: React.CSSProperties;
+}) => (
+  <div
+    className={`animate-pulse bg-stone-200 rounded-lg ${className}`}
+    style={style}
+  />
+);
+
+const BlogSkeleton = () => (
+  <main className="max-w-3xl mx-auto px-5 py-30">
+    {/* tags */}
+    <div className="flex gap-2 mb-5">
+      <Sk className="w-20 h-6 rounded-full" />
+      <Sk className="w-24 h-6 rounded-full" />
+    </div>
+
+    {/* title */}
+    <div className="flex flex-col gap-3 mb-4">
+      <Sk className="w-full h-10" />
+      <Sk className="w-4/5 h-10" />
+    </div>
+
+    {/* subtitle */}
+    <div className="flex flex-col gap-2 mb-7">
+      <Sk className="w-full h-5" />
+      <Sk className="w-3/4 h-5" />
+    </div>
+
+    {/* author + meta row */}
+    <div className="flex items-center justify-between flex-wrap gap-4 pb-6 border-b border-stone-200">
+      <div className="flex items-center gap-3">
+        <Sk className="w-10 h-10 rounded-full" />
+        <div className="flex flex-col gap-1.5">
+          <Sk className="w-28 h-4" />
+          <Sk className="w-20 h-3" />
+        </div>
+      </div>
+      <div className="flex items-center gap-3">
+        <Sk className="w-24 h-3" />
+        <Sk className="w-16 h-3" />
+        <Sk className="w-16 h-3" />
+      </div>
+    </div>
+
+    {/* hero image */}
+    <div className="my-8">
+      <Sk className="w-full aspect-video rounded-2xl" />
+      <Sk className="w-48 h-3 mx-auto mt-3" />
+    </div>
+
+    {/* article body — mix of paragraph, heading, blockquote skeletons */}
+    <div className="space-y-5">
+      {/* paragraph */}
+      <div className="flex flex-col gap-2">
+        <Sk className="w-full h-4" />
+        <Sk className="w-full h-4" />
+        <Sk className="w-5/6 h-4" />
+      </div>
+
+      {/* heading */}
+      <Sk className="w-2/5 h-6 mt-4" />
+
+      {/* paragraph */}
+      <div className="flex flex-col gap-2">
+        <Sk className="w-full h-4" />
+        <Sk className="w-full h-4" />
+        <Sk className="w-4/5 h-4" />
+        <Sk className="w-full h-4" />
+      </div>
+
+      {/* blockquote */}
+      <div className="flex gap-4 my-8">
+        <div className="w-0.5 bg-stone-200 rounded-full shrink-0" />
+        <div className="flex flex-col gap-2 flex-1">
+          <Sk className="w-full h-5" />
+          <Sk className="w-4/5 h-5" />
+        </div>
+      </div>
+
+      {/* paragraph */}
+      <div className="flex flex-col gap-2">
+        <Sk className="w-full h-4" />
+        <Sk className="w-full h-4" />
+        <Sk className="w-3/5 h-4" />
+      </div>
+
+      {/* heading */}
+      <Sk className="w-1/3 h-6 mt-4" />
+
+      {/* paragraph */}
+      <div className="flex flex-col gap-2">
+        <Sk className="w-full h-4" />
+        <Sk className="w-full h-4" />
+        <Sk className="w-full h-4" />
+        <Sk className="w-2/3 h-4" />
+      </div>
+    </div>
+
+    {/* engagement row */}
+    <div className="flex items-center justify-between mt-10 pt-6 border-t border-stone-200">
+      <div className="flex gap-2">
+        <Sk className="w-24 h-9 rounded-full" />
+      </div>
+    </div>
+
+    {/* author card */}
+    <div className="mt-10 p-6 rounded-2xl bg-white border border-stone-100">
+      <Sk className="w-20 h-3 mb-4" />
+      <div className="flex gap-4 items-start">
+        <Sk className="w-12 h-12 rounded-full shrink-0" />
+        <div className="flex-1 flex flex-col gap-2">
+          <Sk className="w-32 h-4" />
+          <Sk className="w-24 h-3" />
+          <Sk className="w-full h-3 mt-2" />
+          <Sk className="w-full h-3" />
+          <Sk className="w-4/5 h-3" />
+        </div>
+      </div>
+    </div>
+  </main>
+);
+
+// ── page ───────────────────────────────────────────────────────────────────
+
 const Blog = () => {
-  //const [liked, setLiked] = useState(false);
-  //const [likeCount, setLikeCount] = useState(0);
-  //   const [saved, setSaved] = useState(false);
-  //   const [followed, setFollowed] = useState(false);
   const [blog, setBlog] = useState<Blog | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const { id } = useParams();
 
-  //   const handleLike = () => {
-  //     setLiked((prev) => !prev);
-  //     setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
-  //   };
-
   const getBlog = async () => {
-    const response = await api.get(`/api/blog/${id}`);
-
-    setBlog(response.data.data);
-    console.log(response.data);
+    try {
+      setLoading(true);
+      setError(false);
+      const response = await api.get(`/api/blog/${id}`);
+      setBlog(response.data.data);
+    } catch (err) {
+      console.error(err);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     getBlog();
-  }, []);
-
-  console.log(blog);
+  }, [id]);
 
   return (
     <div className="min-h-screen bg-[#FAFAF8] font-['Lora',serif]">
-      <div className="fixed w-full z-100 ">
+      <div className="fixed w-full z-100">
         <Navbar />
       </div>
-      {/* Top bar */}
-      {/* <div className="border-b border-stone-200 bg-white/80 backdrop-blur-sm sticky top-0 z-10">
-        <div className="max-w-3xl mx-auto px-5 py-3 flex items-center justify-between">
-          <span className="text-xs tracking-[0.2em] uppercase text-stone-400 font-['DM_Sans',sans-serif]">
-            The Collector
-          </span>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setSaved((p) => !p)}
-              className={`text-xs font-['DM_Sans',sans-serif] px-3 py-1.5 rounded-full border transition-all ${
-                saved
-                  ? "border-stone-800 bg-stone-800 text-white"
-                  : "border-stone-300 text-stone-500 hover:border-stone-500"
-              }`}
-            >
-              {saved ? "Saved" : "Save article"}
-            </button>
-          </div>
-        </div>
-      </div> */}
 
-      {blog ? (
-        <main className="max-w-3xl mx-auto px-5  py-30">
+      {loading ? (
+        <BlogSkeleton />
+      ) : error ? (
+        <div className="min-h-screen flex flex-col items-center justify-center gap-4 text-center px-6">
+          <p className="text-xl font-semibold text-stone-800">
+            Could not load article
+          </p>
+          <p className="text-stone-400 text-sm font-['DM_Sans',sans-serif]">
+            Something went wrong. Please try again.
+          </p>
+          <button
+            onClick={getBlog}
+            className="mt-2 px-6 py-2.5 rounded-full bg-[#1D9E75] text-white text-sm font-medium font-['DM_Sans',sans-serif] hover:bg-[#0F6E56] transition-colors"
+          >
+            Retry
+          </button>
+        </div>
+      ) : blog ? (
+        <main className="max-w-3xl mx-auto px-5 py-30">
           {/* Tags */}
           <div className="flex gap-2 mb-5 flex-wrap">
             {blog.tags.map((tag) => (
@@ -190,39 +316,6 @@ const Blog = () => {
           {/* Engagement row */}
           <div className="flex items-center justify-between mt-10 pt-6 border-t border-stone-200 flex-wrap gap-3">
             <div className="flex items-center gap-2">
-              {/* <button
-                onClick={handleLike}
-                className={`flex items-center gap-2 text-sm px-4 py-2 rounded-full border transition-all font-['DM_Sans',sans-serif] ${
-                  liked
-                    ? "border-rose-300 bg-rose-50 text-rose-500"
-                    : "border-stone-200 text-stone-500 hover:border-stone-300 hover:bg-stone-50"
-                }`}
-              >
-                <svg
-                  width="15"
-                  height="15"
-                  fill={liked ? "currentColor" : "none"}
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                </svg>
-                {likeCount}
-              </button> */}
-              {/* <button className="flex items-center gap-2 text-sm px-4 py-2 rounded-full border border-stone-200 text-stone-500 hover:border-stone-300 hover:bg-stone-50 transition-all font-['DM_Sans',sans-serif]">
-                <svg
-                  width="15"
-                  height="15"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                </svg>
-                18
-              </button> */}
               <button className="flex items-center gap-2 text-sm px-4 py-2 rounded-full border border-stone-200 text-stone-500 hover:border-stone-300 hover:bg-stone-50 transition-all font-['DM_Sans',sans-serif]">
                 <svg
                   width="15"
@@ -241,26 +334,6 @@ const Blog = () => {
                 Share
               </button>
             </div>
-            {/* <button
-              onClick={() => setSaved((p) => !p)}
-              className={`flex items-center gap-2 text-sm px-4 py-2 rounded-full border transition-all font-['DM_Sans',sans-serif] ${
-                saved
-                  ? "border-stone-700 bg-stone-800 text-white"
-                  : "border-stone-200 text-stone-500 hover:border-stone-300 hover:bg-stone-50"
-              }`}
-            >
-              <svg
-                width="14"
-                height="14"
-                fill={saved ? "currentColor" : "none"}
-                stroke="currentColor"
-                strokeWidth="1.5"
-                viewBox="0 0 24 24"
-              >
-                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-              </svg>
-              {saved ? "Saved" : "Save"}
-            </button> */}
           </div>
 
           {/* Author card */}
@@ -282,16 +355,6 @@ const Blog = () => {
                       {blog.author.role}
                     </p>
                   </div>
-                  {/* <button
-                    onClick={() => setFollowed((p) => !p)}
-                    className={`text-xs px-4 py-1.5 rounded-full border transition-all font-['DM_Sans',sans-serif] flex-shrink-0 ${
-                      followed
-                        ? "border-[#1D9E75] bg-[#1D9E75] text-white"
-                        : "border-stone-300 text-stone-600 hover:border-stone-500"
-                    }`}
-                  >
-                    {followed ? "Following" : "Follow"}
-                  </button> */}
                 </div>
                 <p className="text-sm text-stone-500 mt-3 leading-relaxed font-['DM_Sans',sans-serif]">
                   {blog.author.bio}
@@ -299,38 +362,8 @@ const Blog = () => {
               </div>
             </div>
           </div>
-
-          {/* Related articles */}
-          {/* <div className="mt-12">
-            <p className="text-xs tracking-widest uppercase text-stone-400 mb-5 font-['DM_Sans',sans-serif]">
-              Related articles
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {blog.related.map((item, i) => (
-                <div
-                  key={i}
-                  className="group rounded-2xl overflow-hidden border border-stone-100 bg-white cursor-pointer hover:border-stone-300 hover:shadow-sm transition-all"
-                >
-                  <div
-                    className="h-24 flex items-center justify-center"
-                    style={{ background: item.bg }}
-                  />
-                  <div className="p-4">
-                    <p className="text-sm font-semibold text-stone-800 leading-snug mb-2 group-hover:text-[#1D9E75] transition-colors font-['DM_Sans',sans-serif]">
-                      {item.title}
-                    </p>
-                    <p className="text-xs text-stone-400 font-['DM_Sans',sans-serif]">
-                      {item.date}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div> */}
         </main>
-      ) : (
-        "Loading"
-      )}
+      ) : null}
     </div>
   );
 };

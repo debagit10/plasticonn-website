@@ -57,12 +57,16 @@ const LandingPage = () => {
   const location = useLocation();
 
   const [dashboard, setDashboard] = useState<DashboardStats>();
+  const [loading, setLoading] = useState(false);
 
   const getPartners = async () => {
+    setLoading(true);
     const response = await api.get("/api/website");
 
-    setDashboard(response.data.data);
-    console.log(response.data.data);
+    if (response.data.status === 200) {
+      setDashboard(response.data.data);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -78,7 +82,15 @@ const LandingPage = () => {
     }
   }, [location]);
 
-  return (
+  return loading ? (
+    <div className="flex items-center justify-center h-screen bg-[#FAFAFA]">
+      <img
+        src="/logo.png"
+        alt="Plasticonn logo"
+        className="w-30 h-30 animate-spin [animation-duration:4s] hover:animate-none opacity-60"
+      />
+    </div>
+  ) : (
     <div className="bg-[#043B24]">
       <div className="fixed w-full z-100 ">
         <Navbar />
