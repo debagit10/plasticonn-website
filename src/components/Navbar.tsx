@@ -52,6 +52,7 @@ const Navbar = () => {
             //{ name: "Gallery", path: "gallery" },
             { name: "Impact", path: "impact" },
             { name: "How it works", path: "works" },
+            { name: "Gallery", path: "gallery" },
           ].map((item) => (
             <li
               key={item.name}
@@ -125,7 +126,7 @@ const Navbar = () => {
           <div className="flex flex-col items-center gap-4 mt-7 text-[#2F5F4B]">
             {[
               { name: "About Us", path: "about" },
-              //{ name: "Gallery", path: "gallery" },
+              { name: "Gallery", path: "gallery" },
               { name: "Impact", path: "impact" },
               { name: "How it works", path: "works" },
             ].map((item) => (

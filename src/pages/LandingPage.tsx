@@ -11,6 +11,7 @@ import Partners from "../components/Partners";
 import Team from "../components/Team";
 import Works from "../components/Works";
 import api from "../utils/axiosInstance";
+import Gallery from "../components/Gallery";
 
 export interface DashboardStats {
   hero: HeroStats;
@@ -91,6 +92,10 @@ const LandingPage = () => {
 
           <div id="about">
             <About />
+          </div>
+
+          <div id="gallery">
+            <Gallery />
           </div>
 
           <div id="works">
