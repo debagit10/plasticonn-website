@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Typography, Tooltip } from "@mui/material";
 import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
-import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 import aliya from "../assets/team/Aliya.jpg";
 import toyin from "../assets/team/oluwatoyin.jpeg";
 import moyo from "../assets/team/Moyo.jpeg";
