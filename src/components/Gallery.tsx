@@ -25,7 +25,7 @@ const Gallery = () => {
   const fetchImages = async () => {
     const res = await api.get("/api/gallery");
 
-    console.log(res.data.data);
+    // console.log(res.data.data);
     setImages(res.data.data);
   };
 

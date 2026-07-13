@@ -22,7 +22,7 @@ const Partners = () => {
 
   // duplicate for seamless loop
   const duplicatedPartners = Array.isArray(ourPartners)
-    ? [...ourPartners, ...ourPartners]
+    ? [...ourPartners, ...ourPartners, ...ourPartners]
     : [];
 
   return (
