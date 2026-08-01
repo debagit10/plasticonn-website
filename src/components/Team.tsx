@@ -134,8 +134,9 @@ const Team = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [clickedIndex, setClickedIndex] = useState<number | null>(null);
 
-  const SPEED = 40; // px per second, tune to taste
+  const SPEED = 60; // px per second
 
   useAnimationFrame((_, delta) => {
     if (isPaused) return;
@@ -143,12 +144,10 @@ const Team = () => {
     const container = containerRef.current;
     if (!container) return;
 
-    // width of ONE set (half of the duplicated content)
     const halfWidth = container.scrollWidth / 2;
 
     let next = x.get() - (SPEED * delta) / 1000;
 
-    // wrap seamlessly once we've scrolled past one full set
     if (Math.abs(next) >= halfWidth) {
       next += halfWidth;
     }
@@ -203,6 +202,9 @@ const Team = () => {
               className="shrink-0 w-72 lg:w-93 group"
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
+              onClick={() =>
+                setClickedIndex((prev) => (prev === index ? null : index))
+              }
             >
               <div
                 className="flex flex-col items-center text-center rounded-[18px] pt-6 lg:pt-9.25"
@@ -236,7 +238,11 @@ const Team = () => {
                     {member.role}
                   </Typography>
 
-                  <div className="hidden group-hover:flex gap-4 mt-1 justify-center">
+                  <div
+                    className={`${
+                      clickedIndex === index ? "flex" : "hidden"
+                    } group-hover:flex gap-4 mt-1 justify-center`}
+                  >
                     {member.socials.map((item) => (
                       <Tooltip key={item.name} title={item.name}>
                         <a
