@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useAnimationFrame, useMotionValue } from "framer-motion";
 import { Typography, Tooltip } from "@mui/material";
 import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import aliya from "../assets/team/Aliya.jpg";
@@ -131,7 +131,30 @@ const Team = () => {
   // duplicate for seamless loop
   const duplicatedTeam = [...team, ...team];
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
   const [isPaused, setIsPaused] = useState(false);
+
+  const SPEED = 40; // px per second, tune to taste
+
+  useAnimationFrame((_, delta) => {
+    if (isPaused) return;
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    // width of ONE set (half of the duplicated content)
+    const halfWidth = container.scrollWidth / 2;
+
+    let next = x.get() - (SPEED * delta) / 1000;
+
+    // wrap seamlessly once we've scrolled past one full set
+    if (Math.abs(next) >= halfWidth) {
+      next += halfWidth;
+    }
+
+    x.set(next);
+  });
 
   return (
     <div className="bg-[#FAFAFA] px-[6%] lg:px-[8%] py-[8%] lg:py-[4.25%] flex flex-col gap-8 lg:gap-11.5 overflow-hidden">
@@ -170,13 +193,9 @@ const Team = () => {
       {/* Infinite scroll */}
       <div className="relative w-full overflow-hidden py-4 lg:py-8">
         <motion.div
+          ref={containerRef}
           className="flex gap-10 w-max items-start"
-          animate={isPaused ? {} : { x: ["0%", "-50%"] }}
-          transition={{
-            repeat: Infinity,
-            ease: "linear",
-            duration: 30,
-          }}
+          style={{ x }}
         >
           {duplicatedTeam.map((member, index) => (
             <div
