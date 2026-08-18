@@ -44,7 +44,7 @@ const Partners = () => {
           transition={{
             repeat: Infinity,
             ease: "linear",
-            duration: 15,
+            duration: 20,
           }}
         >
           {duplicatedPartners.map((partner, index) => (
