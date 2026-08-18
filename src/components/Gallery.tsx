@@ -189,7 +189,7 @@ const Gallery = () => {
         </div>
 
         {/* Indicators */}
-        <div className="flex flex-wrap justify-center gap-2 mt-4 lg:mt-6 items-center px-4 max-w-full">
+        {/* <div className="flex flex-wrap justify-center gap-2 mt-4 lg:mt-6 items-center px-4 max-w-full">
           {images.map((_, index) => (
             <button
               key={index}
@@ -208,7 +208,7 @@ const Gallery = () => {
               )}
             </button>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );
