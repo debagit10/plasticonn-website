@@ -189,9 +189,13 @@ const Gallery = () => {
         </div>
 
         {/* Indicators */}
-        <div className="flex justify-center gap-2 mt-4 lg:mt-6 items-center">
+        <div className="flex flex-wrap justify-center gap-2 mt-4 lg:mt-6 items-center px-4 max-w-full">
           {images.map((_, index) => (
-            <button key={index} onClick={() => goToSlide(index)}>
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className="shrink-0"
+            >
               {getIndicatorIndex() === index ? (
                 <img
                   src={carousel}
@@ -200,7 +204,7 @@ const Gallery = () => {
                   loading="lazy"
                 />
               ) : (
-                <div className="w-3 h-3 rounded-full bg-gray-400" />
+                <div className="w-3 h-3 rounded-full bg-gray-400 shrink-0" />
               )}
             </button>
           ))}
