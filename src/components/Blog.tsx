@@ -49,21 +49,21 @@ const Blogs = () => {
   const [blogs, setData] = useState<BlogItem[]>([]);
 
   const getBlogs = async () => {
-    const response = await api.get("/api/blog");
-    const all: BlogItem[] = Array.isArray(response.data.data)
-      ? response.data.data
-      : [];
-    // only show published blogs on the public page
-    setData(all.filter((b: any) => b.status === "published"));
+    try {
+      const response = await api.get("/api/blog");
+      const all: BlogItem[] = Array.isArray(response.data.data)
+        ? response.data.data
+        : [];
+      setData(all.filter((b: any) => b.status === "published"));
+    } catch (err) {
+      console.error("Failed to fetch blogs:", err);
+    }
   };
 
   useEffect(() => {
     getBlogs();
   }, []);
 
-  console.log(blogs);
-
-  // derive a short description from the first paragraph block
   const getExcerpt = (blog: BlogItem) => {
     if (!blog.content?.length) return blog.subtitle ?? "";
     const first = blog.content.find((b) => b.type === "paragraph");
@@ -72,8 +72,6 @@ const Blogs = () => {
       ? first.text.slice(0, 100) + "…"
       : first.text;
   };
-
-  const extendedBlogs = [...blogs, ...blogs, ...blogs];
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(true);
@@ -86,51 +84,69 @@ const Blogs = () => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // reset index when blogs load
-  useEffect(() => {
-    if (blogs.length > 0) setCurrentIndex(blogs.length);
-  }, [blogs.length]);
-
   const cardsToShow = isMobile ? 1 : 3;
+  // only loop/clone when there are more items than fit in one view
+  const shouldLoop = blogs.length > cardsToShow;
+  const extendedBlogs = shouldLoop ? [...blogs, ...blogs, ...blogs] : blogs;
+  const slideWidthPct = isMobile ? 100 / Math.max(blogs.length, 1) : 33.333;
+
+  // reset index when blogs load — jump instantly, no animation
+  useEffect(() => {
+    if (blogs.length === 0) return;
+    setIsTransitioning(false);
+    setCurrentIndex(shouldLoop ? blogs.length : 0);
+  }, [blogs.length, shouldLoop]);
 
   const handlePrev = () => setCurrentIndex((prev) => prev - 1);
   const handleNext = () => setCurrentIndex((prev) => prev + 1);
-  const goToSlide = (index: number) => setCurrentIndex(blogs.length + index);
+  const goToSlide = (index: number) =>
+    setCurrentIndex(shouldLoop ? blogs.length + index : index);
 
   const swipeHandlers = useSwipeable({
-    onSwipedLeft: () => setCurrentIndex((prev) => prev + 1),
-    onSwipedRight: () => setCurrentIndex((prev) => prev - 1),
+    onSwipedLeft: () => shouldLoop && setCurrentIndex((prev) => prev + 1),
+    onSwipedRight: () => shouldLoop && setCurrentIndex((prev) => prev - 1),
     preventScrollOnSwipe: true,
     trackMouse: true,
   });
 
+  // boundary wrap — only relevant when looping
   useEffect(() => {
-    if (blogs.length === 0) return;
+    if (!shouldLoop) return;
     if (currentIndex === 0) {
-      setTimeout(() => {
+      const t = setTimeout(() => {
         setIsTransitioning(false);
         setCurrentIndex(blogs.length);
       }, 500);
+      return () => clearTimeout(t);
     } else if (currentIndex === extendedBlogs.length - cardsToShow) {
-      setTimeout(() => {
+      const t = setTimeout(() => {
         setIsTransitioning(false);
         setCurrentIndex(blogs.length);
       }, 500);
-    } else {
+      return () => clearTimeout(t);
+    } else if (currentIndex !== blogs.length) {
       setIsTransitioning(true);
     }
-  }, [currentIndex, blogs.length, extendedBlogs.length, cardsToShow]);
+  }, [
+    currentIndex,
+    blogs.length,
+    extendedBlogs.length,
+    cardsToShow,
+    shouldLoop,
+  ]);
 
+  // autoplay — only when looping
   useEffect(() => {
-    if (blogs.length === 0) return;
+    if (!shouldLoop) return;
     const interval = setInterval(
       () => setCurrentIndex((prev) => prev + 1),
       4000,
     );
     return () => clearInterval(interval);
-  }, [blogs.length]);
+  }, [shouldLoop]);
 
-  const getIndicatorIndex = () => currentIndex % (blogs.length || 1);
+  const getIndicatorIndex = () =>
+    shouldLoop ? currentIndex % (blogs.length || 1) : currentIndex;
 
   if (blogs.length === 0) return null;
 
@@ -162,11 +178,15 @@ const Blogs = () => {
         <div className="relative">
           <div className="overflow-hidden py-4 lg:py-8" {...swipeHandlers}>
             <div
-              className={`flex items-stretch ${isTransitioning ? "transition-transform duration-500 ease-in-out" : ""}`}
+              className={`flex items-stretch ${isTransitioning ? "transition-transform duration-500 ease-in-out" : ""} ${
+                !shouldLoop ? "justify-center" : ""
+              }`}
               style={{
-                transform: isMobile
-                  ? `translateX(-${currentIndex * 100}%)`
-                  : `translateX(-${currentIndex * 33.333}%)`,
+                transform: shouldLoop
+                  ? isMobile
+                    ? `translateX(-${currentIndex * 100}%)`
+                    : `translateX(-${currentIndex * 33.333}%)`
+                  : "none",
                 touchAction: "pan-y",
               }}
             >
@@ -174,7 +194,16 @@ const Blogs = () => {
                 <div
                   key={index}
                   className="shrink-0 px-2 lg:px-4"
-                  style={{ width: isMobile ? "100%" : "33.333%" }}
+                  style={{
+                    width: shouldLoop
+                      ? isMobile
+                        ? "100%"
+                        : "33.333%"
+                      : isMobile
+                        ? `${slideWidthPct}%`
+                        : `${100 / blogs.length / (3 / cardsToShow) > 33.333 ? 33.333 : 100 / blogs.length}%`,
+                    maxWidth: !shouldLoop && !isMobile ? "33.333%" : undefined,
+                  }}
                 >
                   <div
                     className="bg-[#F8F8F8] rounded-[20px] overflow-hidden duration-300 hover:scale-105 cursor-pointer flex flex-col h-full"
@@ -314,39 +343,45 @@ const Blogs = () => {
             </div>
           </div>
 
-          {/* Arrows (desktop only) */}
-          <button
-            onClick={handlePrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white shadow-md hover:bg-gray-50 rounded-full p-2 hidden lg:flex items-center justify-center transition-all z-10"
-          >
-            <IoChevronBack className="w-6 h-6 text-gray-700" />
-          </button>
+          {/* Arrows (desktop only, only when looping) */}
+          {shouldLoop && (
+            <>
+              <button
+                onClick={handlePrev}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white shadow-md hover:bg-gray-50 rounded-full p-2 hidden lg:flex items-center justify-center transition-all z-10"
+              >
+                <IoChevronBack className="w-6 h-6 text-gray-700" />
+              </button>
 
-          <button
-            onClick={handleNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white shadow-md hover:bg-gray-50 rounded-full p-2 hidden lg:flex items-center justify-center transition-all z-10"
-          >
-            <IoChevronForward className="w-6 h-6 text-gray-700" />
-          </button>
+              <button
+                onClick={handleNext}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white shadow-md hover:bg-gray-50 rounded-full p-2 hidden lg:flex items-center justify-center transition-all z-10"
+              >
+                <IoChevronForward className="w-6 h-6 text-gray-700" />
+              </button>
+            </>
+          )}
         </div>
 
-        {/* Indicators */}
-        <div className="flex justify-center gap-2 mt-4 lg:mt-6 items-center">
-          {blogs.map((_, index) => (
-            <button key={index} onClick={() => goToSlide(index)}>
-              {getIndicatorIndex() === index ? (
-                <img
-                  src={carousel}
-                  alt="Active indicator"
-                  className="w-6 h-6 lg:w-8 lg:h-8"
-                  loading="lazy"
-                />
-              ) : (
-                <div className="w-3 h-3 rounded-full bg-gray-400" />
-              )}
-            </button>
-          ))}
-        </div>
+        {/* Indicators — only when looping (nothing to page through otherwise) */}
+        {shouldLoop && (
+          <div className="flex justify-center gap-2 mt-4 lg:mt-6 items-center">
+            {blogs.map((_, index) => (
+              <button key={index} onClick={() => goToSlide(index)}>
+                {getIndicatorIndex() === index ? (
+                  <img
+                    src={carousel}
+                    alt="Active indicator"
+                    className="w-6 h-6 lg:w-8 lg:h-8"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="w-3 h-3 rounded-full bg-gray-400" />
+                )}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
