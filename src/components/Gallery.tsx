@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 import { useSwipeable } from "react-swipeable";
 import api from "../utils/axiosInstance";
-import carousel from "../assets/carousel.png";
+// import carousel from "../assets/carousel.png";
 import { MdArrowRightAlt } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
@@ -49,7 +49,7 @@ const Gallery = () => {
 
   const handlePrev = () => setCurrentIndex((p) => p - 1);
   const handleNext = () => setCurrentIndex((p) => p + 1);
-  const goToSlide = (i: number) => setCurrentIndex(images.length + i);
+  //const goToSlide = (i: number) => setCurrentIndex(images.length + i);
 
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => setCurrentIndex((p) => p + 1),
@@ -81,7 +81,7 @@ const Gallery = () => {
     return () => clearInterval(interval);
   }, [images.length]);
 
-  const getIndicatorIndex = () => currentIndex % (images.length || 1);
+  //const getIndicatorIndex = () => currentIndex % (images.length || 1);
 
   if (images.length === 0) return null;
 
