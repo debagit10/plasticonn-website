@@ -61,6 +61,8 @@ const Blogs = () => {
     getBlogs();
   }, []);
 
+  console.log(blogs);
+
   // derive a short description from the first paragraph block
   const getExcerpt = (blog: BlogItem) => {
     if (!blog.content?.length) return blog.subtitle ?? "";
