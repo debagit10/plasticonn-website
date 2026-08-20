@@ -72,6 +72,13 @@ const Navbar = () => {
           ))}
 
           <Button
+            onClick={() =>
+              window.open(
+                "https://app.plasticonn.com",
+                "_blank",
+                "noopener,noreferrer",
+              )
+            }
             variant="contained"
             disableElevation
             sx={{

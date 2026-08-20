@@ -82,7 +82,7 @@ const Footer = () => {
                     onClick={() =>
                       navigate("/", { state: { scrollTo: item.path } })
                     }
-                    className="cursor-pointer"
+                    className="hover:underline cursor-pointer"
                   >
                     <Typography fontSize={18} fontWeight={500} color="#E9F3EE">
                       {item.name}
@@ -117,6 +117,7 @@ const Footer = () => {
                     onClick={() =>
                       window.open(item.url, "_blank", "noopener,noreferrer")
                     }
+                    className="hover:underline cursor-pointer"
                   >
                     <Typography fontSize={18} fontWeight={500} color="#E9F3EE">
                       {item.name}
