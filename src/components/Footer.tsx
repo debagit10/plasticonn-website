@@ -97,15 +97,29 @@ const Footer = () => {
               <h4 className="text-emerald-400 font-semibold mb-4">For Users</h4>
               <ul className="flex flex-col gap-2">
                 {[
-                  "Become a Collector",
-                  "Collection Centers",
-                  "Recycling Centers",
-                  "FAQs",
-                  "Support",
+                  {
+                    name: "Become a Collector",
+                    url: "https://app.plasticonn.com",
+                  },
+                  {
+                    name: "Collection Centers",
+                    url: "https://app.plasticonn.com",
+                  },
+                  {
+                    name: "Recycling Centers",
+                    url: "https://app.plasticonn.com",
+                  },
+                  { name: "FAQs", url: "" },
+                  { name: "Support", url: "" },
                 ].map((item) => (
-                  <li key={item}>
+                  <li
+                    key={item.name}
+                    onClick={() =>
+                      window.open(item.url, "_blank", "noopener,noreferrer")
+                    }
+                  >
                     <Typography fontSize={18} fontWeight={500} color="#E9F3EE">
-                      {item}
+                      {item.name}
                     </Typography>
                   </li>
                 ))}

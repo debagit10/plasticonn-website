@@ -130,6 +130,13 @@ const Hero = ({ data }: { data: HeroStats }) => {
           className="flex flex-col sm:flex-row gap-4 sm:gap-6"
         >
           <Button
+            onClick={() =>
+              window.open(
+                "https://app.plasticonn.com",
+                "_blank",
+                "noopener,noreferrer",
+              )
+            }
             variant="contained"
             disableElevation
             sx={{

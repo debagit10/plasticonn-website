@@ -148,6 +148,13 @@ const Navbar = () => {
           {/* Button */}
           <div className="mt-auto px-6 pb-8">
             <Button
+              onClick={() =>
+                window.open(
+                  "https://app.plasticonn.com",
+                  "_blank",
+                  "noopener,noreferrer",
+                )
+              }
               fullWidth
               variant="contained"
               disableElevation
